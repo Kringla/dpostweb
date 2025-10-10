@@ -1,0 +1,1047 @@
+
+/* =====================================================================
+   SkipsWeb — app.css (Trinn #3, v2)
+   - Bevarer hero-bilder/farger (lys overlay)
+   - Stor "SkipsWeb" i header kun på landingssiden (.home)
+   - Meny ser ut som faner/lenker, ikke knapper
+   - Knapper (.btn) beholdes i innhold (tabeller, skjema), ikke i navbar
+   ===================================================================== */
+
+:root{
+  /* Oppdatert fargepalett: marineblå, nesten hvitt og rødt */
+  --brand: #003f7d; /* Primær marineblå */
+  --brand-600: #00529b; /* Hover-variant av primærfargen */
+  --brand-700: #002f63; /* Aktiv/trykk-variant av primærfargen */
+  --bg: #f5f9fc; /* Nesten hvit bakgrunn med et hint av blått */
+  --fg: #14213d; /* Mørk blågrå tekstfarge for god kontrast */
+  --muted: #6b7280;
+  --topbottom: #00529b;
+  --border: transparent; /*  #e5e7eb; ,*/
+  --radius: 12px;
+  --shadow: 0 2px 10px rgba(0,0,0,.04);
+  /* Nye variabler for aksent- og sekundærfarger */
+  --accent: #e2e8f0; /* Lys gråblå for paneler og hover */
+  --access: #0078D4;
+  --secondary: #c83c3c; /* Sekundær rødfarge til varsler eller fremheving */
+  --secondary-hover: #a62828; /* Hover-variant av rødfargen */
+}
+
+html, body{
+  background: var(--bg);
+  color: var(--fg);
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 14px;            /* kompakt */
+  line-height: 1.35;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container{
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 14px;
+  text-align: center;
+}
+
+.muted{
+  max-width: 1100px;
+  font-size:16px;
+  text-align: left;
+}
+
+/* ---------------------- Headings ---------------------- */
+h1, h2, h3{
+  text-align: center;
+  margin: 10px 0 12px;
+  font-weight: 600;
+}
+h1{ font-size: 32px;}
+h2{ font-size: 18px;}
+h3{ font-size: 14px;}
+h4{ 
+  text-align: center;
+  margin: 4px;
+  font-weight: 400;
+  font-size: 12px; 
+  color:var(--secondary);
+}
+
+/* ---------------------- Header / Navbar ---------------------- */
+.site-header{
+  border-bottom: 1px solid var(--border);
+  /* Bruk lys aksentfarge i topptekst for å harmonere med ny palett */
+ background: var(--topbottom);
+}
+.site-header .brand{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--brand-700);
+  font-weight: 700;
+  padding: 10px 0;
+  font-size: 18px;            /* standard størrelse */
+}
+
+/* Kun på landingssiden: stor logo/brand */
+.home .site-header .brand{
+  font-size: 34px;
+  letter-spacing: .3px;
+  line-height: 1.1;
+}
+
+.navbar{
+  display: flex;
+  gap: 10px;
+  padding: 8px 0 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Meny-lenker = faner/tekst, ikke knapper */
+.navbar a{
+  text-decoration: none;
+  color: var(--brand-700);
+  padding: 6px 8px;
+  border-radius: 8px;
+}
+.navbar a:hover{ background: var(--accent); }
+
+/* Hvis noen meny-lenker bruker class="btn", fjern "button look" i navbar */
+.navbar .btn{
+  background: transparent !important;
+  color: var(--brand-700) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  min-width: auto !important;
+  height: auto !important;
+  padding: 6px 8px !important;
+  margin: 0 !important; /* ikke øk høyden på navbaren */
+}
+
+/* ---------------------- Buttons (innhold) ---------------------- */
+.btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  background: var(--brand);
+  color: #fff;
+  border: 1px solid var(--brand-600);
+  line-height: 1;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+
+  /* Kombinert fra begge definisjoner */
+  min-width: 20ch;
+  height: 28px;
+  padding: 0 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  /* Ønsket vertikal luft rundt knapper i innhold */
+  margin: 10px 0;
+}
+.btn:hover{ background: var(--brand-600); }
+.btn:active{ background: var(--brand-700); transform: translateY(1px); }
+.btn:focus{ outline: 2px solid #cde3f8; outline-offset: 2px; }
+.btn[disabled]{ opacity: .6; cursor: not-allowed; }
+
+
+/* Små valgknapper og tett tabell */
+.btn-small {
+  display:inline-block;
+  padding:2px 6px;
+  font-size:0.85rem;
+  line-height:1.2;
+  border:1px solid var(--primary, #1f6feb); 
+  border-radius:4px;
+  background-color:var(--primary, #1f6feb);
+  color:#fff;
+  text-decoration:none;
+  min-width:32px; /* liten "firkant" */
+  text-align:center;
+  vertical-align:middle;
+}
+.btn-small:hover { filter: brightness(.92); }
+
+.table.tight th,
+.table.tight td { padding:.25rem .5rem; border-bottom:1px solid #00529b; }
+
+
+/* ---------------------- Forms ---------------------- */
+.search-form{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  margin: 8px 0 14px;
+}
+.search-form__row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px 16px;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+}
+.search-form__actions{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  margin-top:6px;
+}
+
+/* ---------------------- Audio control (index) ---------------------- */
+.sw-audio{
+  position: static;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  max-width: 1100px;
+  margin: 1rem auto 0;
+  padding: 0 14px;
+}
+.sw-audio .btn{
+  min-width: auto;
+  height: auto;
+  padding: 6px 10px;
+}
+
+/* Skjult, kun for skjermleser */
+.sr-only{ position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+.search-form label{
+  font-size: 13px;
+  color: var(--muted);
+}
+.search-form input[type="text"],
+.search-form input[type="search"],
+.search-form select{
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  min-width: 32ch;
+  font-size: 13px;
+  line-height: 1.2;
+}
+.search-form input:focus,
+.search-form select:focus{
+  outline: 2px solid #cde3f8;
+  border-color: #bcd7f4;
+}
+
+/* --- Stacked search layout (admin søkefelt) --- */
+.search-form.sw-search { display:block; text-align:center; margin: 10px auto 16px; }
+.search-form.sw-search .filters { max-width: 900px; margin: 0 auto; }
+.search-form.sw-search .row { display:grid; column-gap: 18px; row-gap: 6px; grid-template-rows: auto auto; align-items: start; }
+.search-form.sw-search .row-1 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.search-form.sw-search .row-2 { grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 16px; }
+.search-form.sw-search .form-field { text-align:center; }
+.search-form.sw-search .form-field label { display:block; margin: 0 0 4px; font-weight:600; font-size: .95rem; line-height:1.1; }
+.search-form.sw-search .form-field select,
+.search-form.sw-search .form-field input[type="text"],
+.search-form.sw-search .form-field input[type="number"],
+.search-form.sw-search .form-field input[type="search"] {
+  width: 100%;
+  min-width: 0; /* overstyrer min-width fra .search-form */
+  height: 34px;
+  padding: 6px 10px;
+  font-size: 14px;
+  box-sizing: border-box;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.search-form.sw-search .row-1 > div,
+.search-form.sw-search .row-2 > div { display:flex; flex-direction:column; align-items:stretch; }
+.search-form.sw-search .filters label { display:block; margin: 0 0 4px; font-weight:600; font-size: .95rem; line-height:1.1; }
+.search-form.sw-search .filters input[type="text"],
+.search-form.sw-search .filters input[type="number"],
+.search-form.sw-search .filters input[type="search"],
+.search-form.sw-search .filters select { width:100%; min-width:0; height:34px; padding:6px 10px; font-size:14px; box-sizing:border-box; }
+.search-form.sw-search button { grid-column: 1 / -1; justify-self: center; margin-top: 12px; }
+.search-form.sw-search .actions { margin-top: 16px; text-align:center; }
+
+@media (max-width: 900px) {
+  .search-form.sw-search .row-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 640px) {
+  .search-form.sw-search .row-1 { grid-template-columns: 1fr; }
+  .search-form.sw-search .row-2 { grid-template-columns: 1fr; }
+}
+
+/* --- Field positioning without extra wrappers --- */
+.search-form.sw-search .row-1 { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); }
+.search-form.sw-search .row-2 { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); }
+
+/* Place labels above their corresponding fields by forcing same column */
+.search-form.sw-search .row-1 label[for="type_id"],
+.search-form.sw-search .row-1 #type_id { grid-column: 1; }
+.search-form.sw-search .row-1 label[for="navn"],
+.search-form.sw-search .row-1 #navn { grid-column: 2; }
+/* labels in row 1 on first grid row, inputs on second */
+.search-form.sw-search .row-1 label { grid-row: 1; }
+.search-form.sw-search .row-1 input,
+.search-form.sw-search .row-1 select { grid-row: 2; }
+
+.search-form.sw-search .row-2 label[for="year"],
+.search-form.sw-search .row-2 #year { grid-column: 1; }
+.search-form.sw-search .row-2 label[for="reghavn"],
+.search-form.sw-search .row-2 #reghavn { grid-column: 2; }
+.search-form.sw-search .row-2 label[for="nasjon_id"],
+.search-form.sw-search .row-2 #nasjon_id { grid-column: 3; }
+/* labels in row 2 on first grid row, inputs on second */
+.search-form.sw-search .row-2 label { grid-row: 1; }
+.search-form.sw-search .row-2 input,
+.search-form.sw-search .row-2 select { grid-row: 2; }
+
+/* Space between row 1 fields and row 2 labels */
+.search-form.sw-search .row-2 { margin-top: 18px; }
+
+/* Center the submit button under all fields when it’s inside row-2 */
+.search-form.sw-search .row-2 .btn { grid-column: 1 / -1; grid-row: 3; justify-self: center; margin-top: 16px; }
+
+/* Plasser hjelpetekst under knappen og midtstill */
+.search-form.sw-search ~ .muted {
+  /* Vis som <h4>-stil og plasser under knappen */
+  text-align: center;
+  max-width: 900px;
+  margin: 6px auto 0;
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--secondary);
+}
+
+/* Sørg for lik ramme på alle felt (inkl. År/number) i søkefeltet */
+.search-form.sw-search .filters input[type="text"],
+.search-form.sw-search .filters input[type="number"],
+.search-form.sw-search .filters input[type="search"],
+.search-form.sw-search .filters select {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+}
+
+/* ---------------------- Cards ---------------------- */
+.card{
+  border: 3px solid var(--border);
+  border-radius: 16px;
+  /* Bakgrunn for kort følger samme nesten-hvite bakgrunn */
+  background: var(--bg);
+  box-shadow: var(--shadow);
+}
+.card .card-content{ padding: 14px; }
+
+/* ---------------------- Tables ---------------------- */
+.table{
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 13px;
+}
+.table thead{
+  /* Tabellen bruker aksentfarge i header og mørk tekstfarge */
+  background: var(--accent);
+  color: var(--fg);
+}
+.table th, .table td{
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.table tbody tr:hover{
+  /* Diskret hover på rad */
+  background: var(--accent);
+}
+
+/* Hover-effekt på hele raden */
+.table tr:hover {
+  background-color: #f0f0f0;   /* litt mørkere grå bakgrunn */
+  cursor: pointer;
+}
+
+/* Markering av valgt rad (kan settes med JS ved klikk) */
+.table tr.selected {
+  background-color: #444;      /* mørk bakgrunn */
+  color: #fff;                 /* hvit tekst */
+}
+
+/* Marker felter med "error" eller "berørt" */
+.table td.error {
+  background-color: #c62828;   /* rød */
+  color: #fff;                 /* hvit tekst */
+  font-weight: bold;
+}
+
+/* Alternativ for header, så hover/selected ikke overstyrer */
+.table thead tr:hover,
+.table thead tr.selected {
+  background-color: inherit;
+  color: inherit;
+  cursor: default;
+}
+
+/* ---------------------- Alerts ---------------------- */
+.alert{
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin: 10px 0;
+}
+.alert-error{
+  /* Varsel bakgrunn og kant basert på sekundær rødfarge */
+  background: #fef2f2;
+  border-color: #fbdada;
+  color: var(--secondary);
+}
+
+/* ---------------------- Hero (landingsside) ---------------------- */
+/* Viktig: ikke overstyr bakgrunnsbilde/rotator; bare en lett film */
+.hero{
+  position: relative;
+  min-height: 260px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  margin: 10px 0 16px;
+}
+.hero .hero-overlay{
+  position: absolute; inset: 0;
+  background: linear-gradient(to right, rgba(0,0,0,.20), rgba(0,0,0,.08)); /* lettere overlay for å bevare farger */
+}
+.hero h1, .hero h2, .hero h3{
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 2px 6px rgba(0,0,0,.25);
+}
+
+/* ---------------------- Utilities ---------------------- */
+.text-center{ text-align: center; }
+.mt-1{ margin-top: 6px; } .mb-1{ margin-bottom: 6px; }
+.mt-2{ margin-top: 10px; } .mb-2{ margin-bottom: 10px; }
+.mt-3{ margin-top: 16px; } .mb-3{ margin-bottom: 16px; }
+.grid{ display: grid; gap: 10px; }
+.grid-2{ grid-template-columns: 1fr 1fr; }
+
+
+/* --- Header logo --- */
+.site-header .brand img.logo{ height:28px; width:auto; display:block; }
+
+/* Større på landingssiden hvis <body> har .home (bevarer ditt mønster) */
+.home .site-header .brand img.logo{ height:36px; }
+
+/* Gjelder hero-bilder på undersidene (/user) */
+/* Gjelder hero-bilder på undersidene (/user) */
+
+.container > .hero {
+    /* Bredden du ønsker, for eksempel 800px */
+    max-width: 800px;
+    /* Midtstill hero-blokken innenfor containeren */
+    margin-left: auto;
+    margin-right: auto;
+}
+@media (min-width: 768px) {
+    .container > .hero {
+        max-width: 800px;
+    }
+}
+
+.hero.hero-rotator {
+    max-width: 1100px;   /* begrens bredde */
+    margin: 0 auto;      /* sentrer på siden */
+    display: flex;          /* gjør seksjonen til en flex-container */
+    flex-direction: column; /* slik at innhold kan skyves til bunn */
+    position: relative;
+}
+
+/* plasser innholdet (inkl. h1/h2) nederst i rotator-blokken */
+.hero.hero-rotator .hero-inner {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    margin-top: auto;        /* skyv innholdet til bunnen */
+    padding-bottom: 1.25rem; /* litt luft mot underkant */
+}
+
+@media (max-width: 640px) {
+  .hero.hero-rotator .hero-inner {
+    padding-bottom: .75rem;
+  }
+}
+
+/* Sørg for at eventuell tekst i heroen (h1, h2, h3) er midtstilt */
+.container > .hero h1,
+.container > .hero h2,
+.container > .hero h3 {
+    text-align: center;
+}
+
+/* Standard container */
+.image-box {
+  width: 100%; max-width: 800px; aspect-ratio: 3 / 1;
+  overflow: hidden;   /* hindrer at bildet stikker ut */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f5f9fc; /* nøytral bakgrunn (kan endres til hvit eller mørk) */
+  margin: 1rem auto;   /* gir litt luft og sentrerer boksen */
+  border: 1px solid transparent; /* valgfritt, for å se rammen */
+}
+
+.image-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain; /* viktig: behold aspektforhold, ikke crop */
+}
+/* Sentrer alt innhold i Hovedinfo-boks på fart_detalj.php */
+.card.centered-card {
+  text-align: center;           /* sentrer tekst i default flow */
+}
+
+/* Vanlige elementer som skal stå midt i boksen */
+.card.centered-card .image-box,
+.card.centered-card img,
+.card.centered-card table {
+  margin-left: auto;
+  margin-right: auto;           /* midtstill blokk-/tabell-/bilde-elementer */
+  display: block;
+}
+
+/* Hvis du har en knapperekke / actions-linje i boksen */
+.card.centered-card .actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .75rem;                  /* litt luft mellom knapper */
+  flex-wrap: wrap;
+}
+
+/* Hvis du har flex-rader som tidligere var venstrejustert */
+.card.centered-card .row,
+.card.centered-card .flex,
+.card.centered-card .grid {
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+
+/* H2/H3 inni boksen – noen temaer tvinger venstre via spesifikke regler */
+.card.centered-card h1,
+.card.centered-card h2,
+.card.centered-card h3 {
+  text-align: center !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Sikre at bilder skaleres pent i image-box (hvis du bruker den) */
+.card.centered-card .image-box {
+  /* forutsetter at du allerede har width:100%; max-width; aspect-ratio i .image-box */
+}
+.card.centered-card .image-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* (Valgfritt) Småknapper i boksen: gi lik spacing uten å strekke hele bredden */
+.card.centered-card .btn {
+  margin: .25rem .5rem;
+}
+
+/* --- Midtstill tabell inne i .card.centered-card --- */
+/* 1) Få innpakning til å bli så smal som innholdet og sentrert */
+.card.centered-card .table-wrap.center {
+  display: block;
+  width: min(860px, 100%);    /* begrens bredde og behold responsivitet */
+  max-width: 100%;            /* ikke bredere enn kortet */
+  margin: 0 auto;             /* midtstill */
+  overflow-x: auto;           /* rull horisontalt om det blir for bredt på mobil */
+}
+
+/* 2) Overstyr global .table { width:100% } når vi vil se visuell midtstilling */
+.card.centered-card .table.fit {
+  width: auto;           /* krymp til innhold */
+  margin-left: auto;     /* midtstill */
+  margin-right: auto;
+}
+
+
+.results-card { border: 2px solid #94a3b8; }
+
+/* Ytre outline-wrapper for tabeller – kun ytre kant i brand-600, 3px */
+.table-wrap.outline-brand{
+  border: 2px solid var(--brand-600);
+  border-radius: 12px;
+  padding: 6px;
+}
+
+/* --- Lenker-tabell (admin/fart_edit.php) --- */
+#links-table { width: 100% !important; table-layout: auto; }
+#links-table th, #links-table td { padding: .35rem .5rem; vertical-align: middle; }
+/* Hold action-kolonnen smal og uten wrapping */
+#links-table th:nth-child(3), #links-table td:nth-child(3) { width: 1%; white-space: nowrap; }
+/* Sikre at inputfeltene kan krympe i grid/flex */
+#links-table input[type="text"],
+#links-table input[type="url"],
+#links-table .form-control { min-width: 0; }
+/* Hold alt på samme linje i hver celle og bruk tilgjengelig bredde */
+#links-table td:nth-child(1) .d-flex { display: grid; grid-template-columns: auto 1fr; align-items: center; column-gap: .5rem; }
+#links-table td:nth-child(2) .d-flex { display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: .5rem; }
+
+.red-line {
+  background-color: red;
+  height: 2px;
+  border: none;
+}
+
+/* --- Administrator-skjemaer --- */
+/* Enkel input-stil som brukes i admin-skjemaer (fart_edit/new) */
+.input {
+  display: block;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.2;
+  margin-bottom: 8px;
+  box-sizing: border-box;
+}
+.input:focus {
+  outline: 2px solid #cde3f8;
+  border-color: #bcd7f4;
+}
+
+/* Harmoniser .form-control og .form-select med globale input-regler */
+.form-control,
+.form-select {
+  height: 34x;          /* harmoniser med tekstfelt */
+  line-height: normal;
+  padding: 6px 10px;
+  font-size: 14px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* --- admin/verft.php: Plasser felttitler til venstre og felt til høyre --- */
+/* Hver .col fungerer som én feltlinje: label | input */
+.form-grid .row .col { display: grid; grid-template-columns: 30% 1fr; align-items: center; column-gap: 6px; }
+.form-grid .row .col label { text-align: right; margin: 0; font-weight: 600; }
+.form-grid .row { margin: 0; }
+/* Match tabell-"compact" vertikal tetthet */
+.form-grid .row .col > label,
+.form-grid .row .col > input,
+.form-grid .row .col > select,
+.form-grid .row .col > textarea { padding-top: 3px; padding-bottom: 3px; }
+/* Felt-fyll, lik fart_edit */
+.form-grid .row .col input,
+.form-grid .row .col select,
+.form-grid .row .col textarea { width: 100%; }
+
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;          /* luft mellom elementer */
+    padding: 1rem;
+    background-color: #f9f9f9; /* lys bakgrunn */
+    border-radius: 8px;
+}
+
+/* --- COMPACT v5 spacing for fart_spes_sok --- */
+.filters-wrap { max-width: 860px; margin: 0 auto; }
+.filters-wrap .search-grid { display:grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 6px; }
+.filters-wrap .row-center { display:flex; justify-content:center; gap: 12px; margin: 6px 0; }
+.filters-wrap .form-field { text-align:center; }
+.filters-wrap .form-field label { display:block; margin: 0 0 2px; font-weight:600; font-size: .95rem; line-height: 1.1; }
+.filters-wrap select { min-width: 170px; height: 28px; font-size: .95rem; padding: 2px 6px; }
+.filters-wrap .actions-compact { text-align:center; margin-top: 8px; }
+@media (max-width: 900px) { .filters-wrap .search-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 640px) { .filters-wrap .search-grid { grid-template-columns: 1fr; } .filters-wrap .row-center { flex-direction:column; } .filters-wrap select { min-width: 100%; } }
+
+
+/* --- Kompakt tabell for fart_nyfart --- */
+.table.compact th,
+.table.compact td {
+  padding: 4px 6px;
+}
+
+.table.compact {
+  line-height: 1.2;
+}
+
+/* --- Justeringer søkesider --- */
+table td {
+  text-align: left;
+}
+
+input[type="text"],
+input[type="search"],
+input[type="select"],
+input[type="url"],
+input[type="email"],
+input[type="tel"],
+input[type="number"],
+input[type="password"],
+select {
+  height: 34px;          /* samme høyde på begge */
+  line-height: normal;     /* tekst vertikalt sentrert tidl 34px*/
+  padding: 6 10px;       /* jevn innvendig margin tidl 0 10px*/
+  font-size: 14px;
+  box-sizing: border-box; /* inkludér padding i høyden */
+}
+/* --- Table hover/selection v2 (override) -------------------------------- */
+/* Celle-basert hover: sikrer synlighet med border-collapse og vinner kaskaden */
+.table tbody tr:hover > td {
+  background-color: #dfe7f1; /* litt mørkere enn --accent */
+  cursor: pointer;
+}
+
+/* Valgt rad: støtt både .selected, aria og data-attributter */
+.table tbody tr.selected > td,
+.table tbody tr[aria-selected="true"] > td,
+.table tbody tr[data-selected="1"] > td {
+  background-color: var(--brand-700);
+  color: #fff;
+}
+
+/* Lenker og småknapper skal være lesbare på mørk bakgrunn */
+.table tbody tr.selected a,
+.table tbody tr[aria-selected="true"] a,
+.table tbody tr[data-selected="1"] a { color: #fff; text-decoration: underline; }
+
+/* Header skal ikke få hover/selected-styling */
+.table thead tr:hover > th,
+.table thead tr.selected > th,
+.table thead tr[aria-selected="true"] > th,
+.table thead tr[data-selected="1"] > th {
+  background: inherit; color: inherit; cursor: default;
+}
+
+/* "Berørte" / feilede felt: rødt med hvit tekst (flere alias-klasser støttes) */
+.table td.error,
+.table td.changed,
+.table td.-dirty,
+.table td[data-state="error"] {
+  background-color: var(--secondary); /* #c83c3c */
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Hvis en hel rad er valgt og enkeltceller i raden også er error:
+   behold kontrast ved å la rød dominere cellen */
+.table tr.selected td.error,
+.table tr[aria-selected="true"] td.error,
+.table tr[data-selected="1"] td.error {
+  background-color: var(--secondary);
+  color: #fff;
+}
+
+/* Valgfritt: mykere overgang når hover/markering endres */
+.table td { transition: background-color .12s ease, color .12s ease; }
+
+/* --- Hero: small variant for rederi_sok --- */
+.hero.hero--small { min-height: 124px; }
+.container > .hero.hero--small { max-width: 400px; margin-left:auto; margin-right:auto; }
+@media (min-width: 768px) { .container > .hero.hero--small { max-width: 400px; } }
+
+.table-container {
+  display: flex; /* Aktiverer Flexbox */
+  justify-content: center; /* Sentrerer elementer horisontalt */
+}
+
+.sw-select-9 { max-width: 9ch; }
+.sw-select-12 { max-width: 12ch; }
+.sw-select-24 { max-width: 24ch; }
+.sw-select-48 { max-width: 48ch; }
+.sw-select-60 {max-width: 60ch; }
+.sw-select-120 {max-width: 120ch; }
+
+/* Tabell-varianter brukt av fart_nyfart.php */
+.table.table-sm th, .table.table-sm td { padding: .5rem .75rem; }
+.table.align-middle th, .table.align-middle td { vertical-align: middle; }
+/* (valgfritt) behold bredde */
+.sw-form-table { width: 100%; }
+
+/* ======================
+   admin/fart_nyfart.php
+   Kompakt layout + 2-kol grid
+   ====================== */
+body.page-fartoy-nytt { background:#f8f9fb; }
+body.page-fartoy-nytt .page-form { max-width:1100px; margin:0 auto; padding:2rem 1rem 3rem; }
+
+/* Kortstil for denne siden (hvitt kort, tydelig kant) */
+body.page-fartoy-nytt .card { border:1px solid #dee2e6; border-radius:8px; background:#fff; box-shadow:0 2px 4px rgba(15,23,42,.08); }
+body.page-fartoy-nytt .card + .card { margin-top:1rem; }
+/* Tighter body-padding */
+body.page-fartoy-nytt .card-body { padding: 1rem; }
+
+/* Tighter inputs på siden */
+body.page-fartoy-nytt .form-control,
+body.page-fartoy-nytt .form-select { padding: .25rem .5rem; font-size: .9rem; height:auto; }
+
+/* Tabelljusteringer */
+body.page-fartoy-nytt .sw-form-table th { font-weight:600; color:#1f2937; white-space:nowrap; }
+body.page-fartoy-nytt .sw-form-table td > .sw-field-inline { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; }
+body.page-fartoy-nytt .sw-form-table textarea { min-height:5.5rem; }
+
+/* Hjelpelenker og merker */
+body.page-fartoy-nytt .helper-link { color:#0d6efd; text-decoration:underline; background:none; border:0; padding:0; font-size:.85rem; cursor:pointer; }
+body.page-fartoy-nytt .helper-link:hover { color:#0a58ca; }
+body.page-fartoy-nytt .badge { display:inline-flex; align-items:center; padding:0.25rem 0.5rem; border-radius:999px; background:#e2e8f0; font-size:0.75rem; }
+body.page-fartoy-nytt .link-group + .link-group { border-top:1px solid #e2e8f0; }
+
+/* Modal for verft-oppretting */
+body.page-fartoy-nytt .modal-overlay { position:fixed; inset:0; background:rgba(15,23,42,.55); display:none; align-items:center; justify-content:center; z-index:999; }
+body.page-fartoy-nytt .modal { background:#fff; border-radius:0.75rem; padding:1.5rem; width:min(90vw, 480px); box-shadow:0 20px 45px rgba(15,23,42,.2); }
+body.page-fartoy-nytt .modal h3 { margin-top:0; }
+body.page-fartoy-nytt .modal-footer { display:flex; justify-content:flex-end; gap:1rem; margin-top:1.5rem; }
+
+/* Tekststørrelse hjelptekst */
+body.page-fartoy-nytt .text-muted { color:#6c757d; font-size:0.85rem; }
+
+/* Topp- og bunnknapper */
+body.page-fartoy-nytt .page-action-top { text-align:center; }
+body.page-fartoy-nytt .page-action-top .btn { min-width:140px; }
+body.page-fartoy-nytt .page-save-bar { text-align:center; }
+body.page-fartoy-nytt .page-save-bar .btn { min-width:160px; }
+
+/* Låste felt etter lagring */
+body.page-fartoy-nytt .locked input,
+body.page-fartoy-nytt .locked select,
+body.page-fartoy-nytt .locked textarea,
+body.page-fartoy-nytt .locked .helper-link { pointer-events:none; background:#eef2f7; color:#475569; }
+
+/* To-kolonne grid for seksjonene på store skjermer */
+body.page-fartoy-nytt .fartoy-grid { display:grid; gap:1.25rem; }
+@media (min-width: 992px) {
+  body.page-fartoy-nytt .fartoy-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  body.page-fartoy-nytt .fartoy-grid .card { margin-top: 0; }
+}
+body.page-fartoy-nytt .tidsdata-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 15%) minmax(0, 35%) minmax(0, 15%) minmax(0, 35%);
+  column-gap: 0;         /* la padding styre mellomrom, som i tabell */
+  row-gap: 0;            /* bruk padding per celle istedenfor rad-gap */
+  align-items: center;   /* vertikal midtlinje som .align-middle */
+  text-align: left;      /* venstrejuster som i tabellene */
+}
+/* Celle-padding lik .table.table-sm */
+body.page-fartoy-nytt .tidsdata-grid > label,
+body.page-fartoy-nytt .tidsdata-grid > .tidsdata-label-static,
+body.page-fartoy-nytt .tidsdata-grid > .tidsdata-control {
+  padding: .5rem .75rem;
+}
+/* Venstrejuster innhold eksplisitt (overstyrer .container {text-align:center}) */
+body.page-fartoy-nytt .tidsdata-grid label,
+body.page-fartoy-nytt .tidsdata-grid .tidsdata-label-static,
+body.page-fartoy-nytt .tidsdata-grid .tidsdata-control { text-align: left; }
+body.page-fartoy-nytt .tidsdata-grid label,
+body.page-fartoy-nytt .tidsdata-grid .tidsdata-label-static {
+  font-weight: 600;
+  color: #1f2937;
+  white-space: nowrap;
+  align-self: center;
+}
+body.page-fartoy-nytt .tidsdata-grid .tidsdata-control {
+  width: 100%;
+}
+/* Gjør "midt-gappen" mellom kol.2 (felt) og kol.3 (tittel) lik høyre kant:
+   fjern høyre padding i kol.2 og la venstre padding i kol.3 være .75rem */
+body.page-fartoy-nytt .tidsdata-grid > .tidsdata-control:nth-child(4n+2) { padding-right: 0; }
+body.page-fartoy-nytt .tidsdata-grid > label:nth-child(4n+3),
+body.page-fartoy-nytt .tidsdata-grid > .tidsdata-label-static:nth-child(4n+3) { padding-left: .75rem; }
+body.page-fartoy-nytt .tidsdata-grid .tidsdata-control .form-control,
+body.page-fartoy-nytt .tidsdata-grid .tidsdata-control .form-select {
+  width: 100%;
+  max-width: 100%;
+}
+/* Gjør Fartøytype-speil (sw-select-9) smal som i andre seksjoner */
+body.page-fartoy-nytt .tidsdata-grid .tidsdata-control select.form-select.sw-select-9 {
+  width: auto;            /* overstyr global width:100% */
+  display: inline-block;  /* unngå å fylle hele cellen */
+}
+
+/* Ekstra luft mellom kolonne 2 (felt) og kolonne 3 (tittel), og mot høyre kant i kolonne 4 */
+/* Ikke legg ekstra padding på celler; column-gap styrer avstand */
+/* Fjern radskille (bruk kun spacing) */
+body.page-fartoy-nytt .tidsdata-grid .tidsdata-static {
+  display: inline-flex;
+  gap: .5rem;
+  align-items: center;
+}
+@media (max-width: 991.98px) {
+  body.page-fartoy-nytt .tidsdata-grid {
+    grid-template-columns: minmax(0, 35%) minmax(0, 65%);
+    column-gap: .75rem;
+  }
+}
+@media (max-width: 640px) {
+  body.page-fartoy-nytt .tidsdata-grid {
+    grid-template-columns: 1fr;
+  }
+  body.page-fartoy-nytt .tidsdata-grid > label,
+  body.page-fartoy-nytt .tidsdata-grid > .tidsdata-label-static,
+  body.page-fartoy-nytt .tidsdata-grid > .tidsdata-control {
+    padding: .35rem .5rem; /* litt tettere på små skjermer */
+  }
+  /* Tilbakestill ev. fjernet høyre-padding i kol.2 når alt er én kolonne */
+  body.page-fartoy-nytt .tidsdata-grid > .tidsdata-control { padding-right: .5rem; }
+  body.page-fartoy-nytt .tidsdata-grid label,
+  body.page-fartoy-nytt .tidsdata-grid .tidsdata-label-static {
+    padding-bottom: .15rem;
+  }
+}
+@media (min-width: 992px) {
+  body.page-fartoy-nytt .fartoy-grid .card-tidsdata { grid-column: 1 / -1; }
+}
+/* Admin cards centered within container */
+.centered-card {
+  margin: 1rem auto;
+  max-width: 900px;
+  padding: 1rem;
+}
+
+/* Eksportknapper (CSV/PDF) */
+.export-actions {
+  text-align: center;
+  margin: 8px 0 12px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ---------------------- Print styles ---------------------- */
+.no-print { display: block; }
+.only-print { display: none; }
+
+.print-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 10mm;
+}
+.print-title { text-align: center; margin: 0 0 6mm; }
+.print-meta { text-align: center; color: #374151; margin: 0 0 6mm; font-size: 12px; }
+
+/* Named pages to allow picking orientation without inline <style> */
+@page portrait { size: A4 portrait; margin: 12mm; }
+@page landscape { size: A4 landscape; margin: 12mm; }
+.print-portrait { page: portrait; }
+.print-landscape { page: landscape; }
+
+/* Table compaction for printing */
+.print-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.print-table th, .print-table td { border: 1px solid #ddd; padding: 3px 4px; text-align: left; }
+.print-table thead { background: #f1f5f9; }
+
+@media print {
+  .no-print { display: none !important; }
+  .only-print { display: block !important; }
+  /* Reset global centering for container when printing */
+  .container, .print-container { text-align: left; padding: 0; margin: 0; max-width: none; }
+}
+
+/* HERO med video */
+.sw-hero {
+  display: flex;
+  justify-content: center;  /* sentrer hele wrap'en */
+  padding: 2rem 0;
+}
+
+.sw-hero-video-wrap {
+  position: relative;
+  width: 100%;       /* 100% av containerbredden bruk 70vw for 70 % av skjermbredden */
+  max-width: 100%;   /* aldri bredere enn parent (.container.mt-3).  900px; girvalgfri maksgrense */
+}
+
+.sw-hero-video {
+  width: 100%;
+  height: auto;
+  max-height: 60vh;      /* begrens maksimal høyde uten å bryte 16:9 */
+  display: block;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+/* Tekst oppå video */
+.sw-hero-overlay {
+  position: absolute;
+  inset: 0; /* dekker hele videoen */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5); /* kontrast mot video */
+  padding: 1rem;
+  background: linear-gradient(to right, rgba(0,0,0,.25), rgba(0,0,0,.10));
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .6s ease;
+}
+
+.sw-hero-overlay.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.sw-hero-overlay h1 {
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  margin-bottom: 0.5rem;
+}
+
+.sw-hero-overlay p {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  max-width: 100%;
+}
+
+.sw-hero-overlay .sw-hero-logo {
+  display: block;
+  width: auto;
+  opacity: 0;
+  transform: scale(0.2);
+  transform-origin: center center;
+}
+
+.sw-hero-overlay.is-visible .sw-hero-logo {
+  animation: sw-hero-logo-grow 2s ease forwards;
+}
+
+@keyframes sw-hero-logo-grow {
+  0% {
+    opacity: 0;
+    transform: scale(0.2);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Eksportknapper (CSV/Print) */
+.export-actions {
+  text-align: center;
+  margin: 8px 0 12px;
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
