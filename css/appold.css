@@ -39,14 +39,14 @@ html, body{
 }
 
 .container{
-  max-width: 1100px;
+  max-width: 1900px;
   margin: 0 auto;
   padding: 0 14px;
   text-align: center;
 }
 
 .muted{
-  max-width: 1100px;
+  max-width: 1900px;
   font-size:16px;
   text-align: left;
 }
@@ -205,7 +205,7 @@ h4{
   display: flex;
   align-items: center;
   gap: .5rem;
-  max-width: 1100px;
+  max-width: 1900px;
   margin: 1rem auto 0;
   padding: 0 14px;
 }
@@ -458,7 +458,7 @@ h4{
 }
 
 .hero.hero-rotator {
-    max-width: 1100px;   /* begrens bredde */
+    max-width: 1900px;   /* begrens bredde */
     margin: 0 auto;      /* sentrer på siden */
     display: flex;          /* gjør seksjonen til en flex-container */
     flex-direction: column; /* slik at innhold kan skyves til bunn */
@@ -779,7 +779,7 @@ select {
    Kompakt layout + 2-kol grid
    ====================== */
 body.page-fartoy-nytt { background:#f8f9fb; }
-body.page-fartoy-nytt .page-form { max-width:1100px; margin:0 auto; padding:2rem 1rem 3rem; }
+body.page-fartoy-nytt .page-form { max-width:1900px; margin:0 auto; padding:2rem 1rem 3rem; }
 
 /* Kortstil for denne siden (hvitt kort, tydelig kant) */
 body.page-fartoy-nytt .card { border:1px solid #dee2e6; border-radius:8px; background:#fff; box-shadow:0 2px 4px rgba(15,23,42,.08); }

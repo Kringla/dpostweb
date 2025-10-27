@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
     /* Innhold */
     .wrap{
-      max-width:1100px;margin:0 auto;padding:18px 14px;text-align:center;
+      max-width:1900px;margin:0 auto;padding:18px 14px;text-align:center;
     }
     h1{margin:.25rem 0 1rem 0;font-weight:600;font-size:20px;}
     .card{
