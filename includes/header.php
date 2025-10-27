@@ -10,7 +10,7 @@ if (!empty($_SESSION['user_role'])) {
 
 $page_class = isset($page_class) && is_string($page_class) ? $page_class : 'page';
 $body_class = trim($role_class . ' ' . $page_class);
-$page_title = isset($page_title) && is_string($page_title) ? $page_title : 'IhlenWeb';
+$page_title = isset($page_title) && is_string($page_title) ? $page_title : 'DpostWeb';
 
 $BASE = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
 ?>
@@ -27,9 +27,9 @@ $BASE = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
 <header class="site-header">
   <div class="container">
     <a class="brand" href="<?php echo $BASE; ?>/">
-      <img src="<?php echo $BASE; ?>/assets/img/dpostweb-logo@2x.jpg"
-        srcset="<?php echo $BASE; ?>/assets/img/dpostweb-logo.jpg 1x,
-                 <?php echo $BASE; ?>/assets/img/dpostweb-logo@2x.jpg 2x"
+      <img src="<?php echo $BASE; ?>/assets/img/dposten-logo.jpg"
+        srcset="<?php echo $BASE; ?>/assets/img/dposten-logo.jpg 1x,
+                 <?php echo $BASE; ?>/assets/img/dposten-logo@x2.jpg 2x"
         alt="DpostWeb" class="logo">
     </a>
   </div>

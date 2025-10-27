@@ -3,7 +3,7 @@
 // Selvstendig innloggingsside for DpostWeb uten referanse til ekstern CSS.
 // Oppfyller layoutkrav i CHANGE_REQUEST auth_login.md.
 
-require_once __DIR__ . '/includes/bootstrap.php';
+require_once __DIR__ . '/../includes/bootstrap.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -183,5 +183,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </body>
 
 </html>
-
 

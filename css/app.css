@@ -86,3 +86,151 @@ h4{
   padding: 14px 0 24px;
   margin-top: 20px;
 }
+
+
+/* Kun på landingssiden: stor logo/brand */
+.home .site-header .brand{
+  font-size: 34px;
+  letter-spacing: .3px;
+  line-height: 1.1;
+}
+
+.navbar{
+  display: flex;
+  gap: 10px;
+  padding: 8px 0 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* Meny-lenker = faner/tekst, ikke knapper */
+.navbar a{
+  text-decoration: none;
+  color: var(--brand-700);
+  padding: 6px 8px;
+  border-radius: 8px;
+}
+.navbar a:hover{ background: var(--accent); }
+
+/* Hvis noen meny-lenker bruker class="btn", fjern "button look" i navbar */
+.navbar .btn{
+  background: transparent !important;
+  color: var(--brand-700) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  min-width: auto !important;
+  height: auto !important;
+  padding: 6px 8px !important;
+  margin: 0 !important; /* ikke øk høyden på navbaren */
+}
+
+/* ---------------------- Buttons (innhold) ---------------------- */
+.btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-decoration: none;
+  background: var(--brand);
+  color: #fff;
+  border: 1px solid var(--brand-600);
+  line-height: 1;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+
+  /* Kombinert fra begge definisjoner */
+  min-width: 20ch;
+  height: 28px;
+  padding: 0 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  /* Ønsket vertikal luft rundt knapper i innhold */
+  margin: 10px 0;
+}
+.btn:hover{ background: var(--brand-600); }
+.btn:active{ background: var(--brand-700); transform: translateY(1px); }
+.btn:focus{ outline: 2px solid #cde3f8; outline-offset: 2px; }
+.btn[disabled]{ opacity: .6; cursor: not-allowed; }
+
+
+/* Små valgknapper og tett tabell */
+.btn-small {
+  display:inline-block;
+  padding:2px 6px;
+  font-size:0.85rem;
+  line-height:1.2;
+  border:1px solid var(--primary, #1f6feb); 
+  border-radius:4px;
+  background-color:var(--primary, #1f6feb);
+  color:#fff;
+  text-decoration:none;
+  min-width:32px; /* liten "firkant" */
+  text-align:center;
+  vertical-align:middle;
+}
+.btn-small:hover { filter: brightness(.92); }
+
+
+/* ---------------------- Cards ---------------------- */
+.card{
+  border: 3px solid var(--border);
+  border-radius: 16px;
+  /* Bakgrunn for kort følger samme nesten-hvite bakgrunn */
+  background: var(--bg);
+  box-shadow: var(--shadow);
+}
+.card .card-content{ padding: 14px; }
+
+/* ---------------------- Tables ---------------------- */
+.table{
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  font-size: 13px;
+}
+.table thead{
+  /* Tabellen bruker aksentfarge i header og mørk tekstfarge */
+  background: var(--accent);
+  color: var(--fg);
+}
+.table th, .table td{
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.table tbody tr:hover{
+  /* Diskret hover på rad */
+  background: var(--accent);
+}
+
+/* Hover-effekt på hele raden */
+.table tr:hover {
+  background-color: #f0f0f0;   /* litt mørkere grå bakgrunn */
+  cursor: pointer;
+}
+
+/* Markering av valgt rad (kan settes med JS ved klikk) */
+.table tr.selected {
+  background-color: #444;      /* mørk bakgrunn */
+  color: #fff;                 /* hvit tekst */
+}
+
+/* Marker felter med "error" eller "berørt" */
+.table td.error {
+  background-color: #c62828;   /* rød */
+  color: #fff;                 /* hvit tekst */
+  font-weight: bold;
+}
+
+/* Alternativ for header, så hover/selected ikke overstyrer */
+.table thead tr:hover,
+.table thead tr.selected {
+  background-color: inherit;
+  color: inherit;
+  cursor: default;
+}

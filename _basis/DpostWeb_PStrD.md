@@ -1,32 +1,35 @@
 #Prosjekt Struktur Dokument (PStrD)
 
-Prosjektets navn er **IhlenWeb**
+Prosjektets navn er **DpostWeb**
 
-##RESSURSRAMMEBETINGELSER:
+## RESSURSRAMMEBETINGELSER:
 DB som skal gis et GUI i prosjektet ligger på et Webhotell, OnNet.no.
 Webhotellet har MySQL ver 8.3.28 og støtter Cron.
 Jeg har en MSc i "Design of Information Systems" fra 1980. Jeg har utviklet applikajoner i og kan lese VBA kode. Jeg har god erfaring med design av Relasjonsdatabaser.
 Jeg har tilgjengelig VB Studio Code, Notebook++, Access, phpMySQL ver 5.2.2, MySQL Workbench ver 8.0 CE og xampp.
 
+## Schema
 DB har et Schema som angitt i `_basis/gerhard_dposten_schema.sql`.
 
-Data for connection string - deployert versjon: 
-vertsnavn (host): hostmaster.onnet.no `
-databasenavn: gerhard_dposten
-brukernavn (MySQL-konto): gerhard_dpbruker (SELECT-rettigheter)
+## Data for connection string
+### Deployert versjon: 
+vertsnavn (host): `hostmaster.onnet.no`
+databasenavn: `gerhard_dposten`
+brukernavn (MySQL-konto): `gerhard_dpbruker` (SELECT-rettigheter)
 passord: ########## (fås oppgitt hvis/når nødvendig)
-port: 3306
-charset: UTF-8 (behøves ikke for connection)
+port: `3306`
+charset: `UTF-8` (behøves ikke for connection)
 
-Data for connection string - utvikling/testing: 
-vertsnavn (host): localhost 
-databasenavn: gerhard_dposten
-brukernavn (MySQL-konto): root
-passord: ""
-port: 3306
-charset: UTF-8 (behøves ikke for connection)
+### Utvikling/testing i 'xampp': 
+vertsnavn (host): `localhost` 
+databasenavn: `gerhard_dposten`
+brukernavn (MySQL-konto): `root`
+passord: `""`
+port: `3306`
+charset: `UTF-8` (behøves ikke for connection)
 
-php-filene (så langt) er arrangert i følgende struktur:
+## Lagringsstruktur
+Filene (så langt) er arrangert i følgende struktur:
 
 dpostweb/
 ├── .htaccess                			# URL-omskriving, sikkerhetsregler
@@ -41,9 +44,9 @@ dpostweb/
 │
 ├── assets/
 │   └──  img/ 							# bilde-filer
-│        ├── ihlenweb-logo.jpg       	# Site logo
-│        ├── ihlenweb-logo@2x.jpg       # Site logo stor
-│        └── ihlenweb-logo@4x.jpg       # Site logo størst
+│        ├── DpostWeb-logo.jpg       	# Site logo
+│        ├── DpostWeb-logo@2x.jpg       # Site logo stor
+│        └── DpostWeb-logo@4x.jpg       # Site logo størst
 │
 ├── config/
 │   ├── config.php           			# Database- og app-innstillinger
@@ -66,6 +69,9 @@ dpostweb/
 │   ├── change_password.php          	# Endre passord
 │   └── xxx.php        					# TBD
 │
+├── outfil/								# Folder med print-out filer som alle rollene har tilgang til
+│   └── xxx_print.php        			# TBD
+│ 
 └── protfil/      						# Folder med filer kun **admin** rollen har tilgang til
     ├── register.php         			# Brukerregistrering bruker i xuser, hvis tom tabell
     ├── xxx.php.php        				# TBD CRUD
@@ -73,18 +79,6 @@ dpostweb/
     └── param_table.php        			# Admin av parameterfiler
  
 
-Lay-out:
-	Filene tilstreber å tilfredsstille følgende generelle krav til layout: 
-	+ Side headinger skal være midtstilt.
-	+ Knapper benyttes til å starte opp handlinger (f.eks. søks- og detaljfiler), faner brukes til å vise andre meny-sider (f.eks. egen meny for administrator). 
-	+ Knapper skal være like store. Knapper skal ha "knappefarge", f.eks. tilsvarende den blå fargen som er valgt for landingsside. Knapper skal ikke være i sidens fulle bredde, men være små, men likevel brede og høye nok til å ha plass til 20 karakterer i valgt "knappefont" 10px. 
-	+ Felt og blokker bør være rimlig komprimerte, unngå bruk av store typer (over 12px).
-	Spesielt for landingssiden:
-	+ Når knapper benyttes må de ikke være duplikater 
-
-Utførelse av endringer:
-Alle endringer skal skje basert på enten fil vedlagt i prosjektets dokumenter, en vedlagt fil, eller siste versjon av den relevante filen som ligger på https://github.com/Kringla/dpostweb.
-Bruk alltid BASE_URL som referanse til rot.
 
 Jeg er redd for å skifte ut feil kode blokker når du foreslår endringer. Derfor må du alltid sørge for enten for
 1) å vise hele blokken den skal erstatte, (best for meg)
