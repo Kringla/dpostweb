@@ -6,7 +6,10 @@ Denne filen gir Codex veiledning for arbeid i dette repoet, **dpostweb**.
 ## Rammer og referanser
 
 - Prosjektets styrende filer skal alltid leses **før** utvikling/endring av ny kode. Disse er:
-  - `_basis/DpostWeb_PStrD.md` — prosjektets strukturer, repo-struktur og filoversikt  
+  - `_basis/DpostWeb_PStrD.md` — prosjektets strukturer, repo-struktur og filoversikt, inkl trinn 1 
+  - `_basis/DpostWeb_PStrD_Trinn2_Søk.md` — prosjektets strukturer, trinn 2
+  - `_basis/DpostWeb_PStrD_Trinn3_CRUD.md` — prosjektets strukturer, trinn 3 
+  - `_basis/DpostWeb_UI_Checklist_and_DesignTokens.md` — Sjekkliste, tokens, m.m.  
   - `_basis/DpostWeb_Schema.sql` — SkipsDb database-schema  
   - `_includes/bootstrap.php` — bootstrap-informasjon  
   - `config/constants.php` — konstanter i prosjektet  

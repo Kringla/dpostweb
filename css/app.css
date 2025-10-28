@@ -1,236 +1,533 @@
-
-/* =====================================================================
-   SkipsWeb — app.css (Trinn #3, v2)
-   - Bevarer hero-bilder/farger (lys overlay)
-   - Stor "SkipsWeb" i header kun på landingssiden (.home)
-   - Meny ser ut som faner/lenker, ikke knapper
-   - Knapper (.btn) beholdes i innhold (tabeller, skjema), ikke i navbar
-   ===================================================================== */
-
-:root{
-  /* Oppdatert fargepalett: marineblå, nesten hvitt og rødt */
-  --brand: #003f7d; /* Primær marineblå */
-  --brand-600: #00529b; /* Hover-variant av primærfargen */
-  --brand-700: #002f63; /* Aktiv/trykk-variant av primærfargen */
-  --bg: #f5f9fc; /* Nesten hvit bakgrunn med et hint av blått */
-  --fg: #14213d; /* Mørk blågrå tekstfarge for god kontrast */
-  --muted: #6b7280;
-  --topbottom: #00529b;
-  --border: transparent; /*  #e5e7eb; ,*/
-  --radius: 12px;
-  --shadow: 0 2px 10px rgba(0,0,0,.04);
-  /* Nye variabler for aksent- og sekundærfarger */
-  --accent: #e2e8f0; /* Lys gråblå for paneler og hover */
-  --access: #0078D4;
-  --secondary: #c83c3c; /* Sekundær rødfarge til varsler eller fremheving */
-  --secondary-hover: #a62828; /* Hover-variant av rødfargen */
+:root {
+  --color-primary: #0D3B66;
+  --color-secondary: #F1F3F5;
+  --space-3: 16px;
+  --font-base: system-ui, Arial, sans-serif;
+  --color-primary-hover: #155A8A;
+  --color-primary-active: #0A2E4D;
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #E6ECF2;
+  --color-text: #1C2534;
+  --color-text-muted: #516070;
+  --color-border: #CFD8E3;
+  --color-danger: #C83C3C;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-soft: 0 2px 12px rgba(13, 59, 102, 0.12);
+  --shadow-raised: 0 6px 18px rgba(13, 59, 102, 0.16);
+  --transition-fast: 120ms ease-in-out;
 }
 
-html, body{
-  background: var(--bg);
-  color: var(--fg);
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
   margin: 0;
   padding: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 14px;            /* kompakt */
-  line-height: 1.35;
+  background: var(--color-secondary);
+  color: var(--color-text);
+  font-family: var(--font-base);
+  font-size: 14px;
+  line-height: 1.45;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body > * {
+  flex-shrink: 0;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover,
+a:focus {
+  color: var(--color-primary-hover);
+}
+
 .container{
-  max-width: 1900px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 14px;
   text-align: center;
 }
 
-.muted{
-  max-width: 1900px;
-  font-size:16px;
+.muted {
+  color: var(--color-text-muted);
+  font-size: 16px;
   text-align: left;
 }
 
-/* ---------------------- Headings ---------------------- */
-h1, h2, h3{
+h1, h2, h3 {
   text-align: center;
-  margin: 10px 0 12px;
+  margin: var(--space-2) 0 var(--space-3);
   font-weight: 600;
 }
-h1{ font-size: 32px;}
-h2{ font-size: 18px;}
-h3{ font-size: 14px;}
-h4{ 
+
+h1 { font-size: 32px; }
+h2 { font-size: 18px; }
+h3 { font-size: 14px; }
+
+h4 {
   text-align: center;
-  margin: 4px;
+  margin: var(--space-1);
   font-weight: 400;
-  font-size: 12px; 
-  color:var(--secondary);
+  font-size: 12px;
+  color: var(--color-primary);
 }
 
-/* ---------------------- Header / Navbar ---------------------- */
-.site-header{
-  border-bottom: 1px solid var(--border);
-  /* Bruk lys aksentfarge i topptekst for å harmonere med ny palett */
- background: var(--topbottom);
+.site-header {
+  background: var(--color-primary);
+  color: #fff;
+  border-bottom: 1px solid var(--color-border);
+  padding: var(--space-2) 0;
 }
 
-
-/* ---------------------- Footer ---------------------- */
-.site-footer{
-  border-top: 1px solid var(--border);
-  /* color: var(--muted); */
-  background: var(--topbottom);    /* ← ny farge */
-  color: white;                /* ← husk kontrast til teksten */
-  font-size: 12.5px;
-  padding: 14px 0 24px;
-  margin-top: 20px;
-}
-
-
-/* Kun på landingssiden: stor logo/brand */
-.home .site-header .brand{
-  font-size: 34px;
-  letter-spacing: .3px;
-  line-height: 1.1;
-}
-
-.navbar{
+.site-header .container {
   display: flex;
-  gap: 10px;
-  padding: 8px 0 12px;
   align-items: center;
-  flex-wrap: wrap;
+  justify-content: center;
 }
 
-/* Meny-lenker = faner/tekst, ikke knapper */
-.navbar a{
-  text-decoration: none;
-  color: var(--brand-700);
-  padding: 6px 8px;
-  border-radius: 8px;
-}
-.navbar a:hover{ background: var(--accent); }
-
-/* Hvis noen meny-lenker bruker class="btn", fjern "button look" i navbar */
-.navbar .btn{
-  background: transparent !important;
-  color: var(--brand-700) !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  min-width: auto !important;
-  height: auto !important;
-  padding: 6px 8px !important;
-  margin: 0 !important; /* ikke øk høyden på navbaren */
-}
-
-/* ---------------------- Buttons (innhold) ---------------------- */
-.btn{
+.site-header .brand {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  text-decoration: none;
-  background: var(--brand);
-  color: #fff;
-  border: 1px solid var(--brand-600);
+}
+
+.site-header .logo {
+  height: 54px;
+  width: auto;
+}
+
+.home .site-header .logo {
+  height: 72px;
+}
+
+.nav.tabs {
+  margin: var(--space-2) 0 var(--space-3);
+}
+
+.tabs-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+.tab-item {
+  display: flex;
+}
+
+.tab-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  border: 1px solid transparent;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: var(--color-primary-active);
+  font-weight: 600;
   line-height: 1;
-  box-shadow: var(--shadow);
+  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+}
+
+.tab-link:hover,
+.tab-link:focus {
+  background: var(--color-surface-muted);
+  color: var(--color-primary);
+}
+
+.tab-link.is-active {
+  background: var(--color-surface);
+  border-color: var(--color-border);
+  border-bottom-color: var(--color-surface);
+  color: var(--color-primary);
+  box-shadow: 0 6px 16px rgba(13, 59, 102, 0.08);
+}
+
+.home-main {
+  padding: var(--space-4) 0 var(--space-5);
+}
+
+.lead {
+  margin: 0 0 var(--space-4);
+  font-size: 18px;
+  color: var(--color-text-muted);
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--space-3);
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 96px;
+  padding: var(--space-4) var(--space-3);
+  border-radius: var(--radius-lg);
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  box-shadow: var(--shadow-soft);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+}
+
+.tile:hover,
+.tile:focus {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-raised);
+}
+
+.tile.blue {
+  background: var(--color-primary);
+}
+
+.tile.blue:hover,
+.tile.blue:focus {
+  background: var(--color-primary-hover);
+}
+
+.tile.admin {
+  background: #1B998B;
+}
+
+.tile.admin:hover,
+.tile.admin:focus {
+  background: #188676;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: var(--space-3);
+}
+
+.card .card-content {
+  padding: 0;
+}
+
+.card.centered-card {
+  text-align: center;
+}
+
+form {
+  margin: 0;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: 0 0 var(--space-3);
+}
+
+.label {
+  font-size: 14px;
+  color: var(--color-text);
+}
+
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.3;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(13, 59, 102, 0.18);
+}
+
+.input[disabled] {
+  background: var(--color-secondary);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
+}
+
+.mt-2l {
+  margin-top: calc(var(--space-3) * 1.4);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-width: 20ch;
+  height: 32px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.02em;
   cursor: pointer;
   user-select: none;
-  white-space: nowrap;
-
-  /* Kombinert fra begge definisjoner */
-  min-width: 20ch;
-  height: 28px;
-  padding: 0 10px;
-  font-size: 14px;
-  border-radius: 4px;
-  /* Ønsket vertikal luft rundt knapper i innhold */
-  margin: 10px 0;
+  box-shadow: var(--shadow-soft);
+  transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
 }
-.btn:hover{ background: var(--brand-600); }
-.btn:active{ background: var(--brand-700); transform: translateY(1px); }
-.btn:focus{ outline: 2px solid #cde3f8; outline-offset: 2px; }
-.btn[disabled]{ opacity: .6; cursor: not-allowed; }
 
+.btn:hover,
+.btn:focus {
+  background: var(--color-primary-hover);
+  box-shadow: var(--shadow-raised);
+}
 
-/* Små valgknapper og tett tabell */
+.btn:active {
+  background: var(--color-primary-active);
+  transform: translateY(1px);
+}
+
+.btn[disabled] {
+  opacity: 0.65;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn.primary {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
 .btn-small {
-  display:inline-block;
-  padding:2px 6px;
-  font-size:0.85rem;
-  line-height:1.2;
-  border:1px solid var(--primary, #1f6feb); 
-  border-radius:4px;
-  background-color:var(--primary, #1f6feb);
-  color:#fff;
-  text-decoration:none;
-  min-width:32px; /* liten "firkant" */
-  text-align:center;
-  vertical-align:middle;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2px 8px;
+  min-width: 32px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-primary);
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  transition: background var(--transition-fast);
 }
-.btn-small:hover { filter: brightness(.92); }
 
-
-/* ---------------------- Cards ---------------------- */
-.card{
-  border: 3px solid var(--border);
-  border-radius: 16px;
-  /* Bakgrunn for kort følger samme nesten-hvite bakgrunn */
-  background: var(--bg);
-  box-shadow: var(--shadow);
+.btn-small:hover,
+.btn-small:focus {
+  background: var(--color-primary-hover);
 }
-.card .card-content{ padding: 14px; }
 
-/* ---------------------- Tables ---------------------- */
-.table{
+.alert {
+  border: 1px solid rgba(200, 60, 60, 0.3);
+  background: rgba(200, 60, 60, 0.08);
+  color: var(--color-danger);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.table {
   width: 100%;
   border-collapse: collapse;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  overflow: hidden;
   font-size: 13px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-soft);
 }
-.table thead{
-  /* Tabellen bruker aksentfarge i header og mørk tekstfarge */
-  background: var(--accent);
-  color: var(--fg);
+
+.table thead {
+  background: var(--color-secondary);
+  color: var(--color-text);
 }
-.table th, .table td{
+
+.table th,
+.table td {
   text-align: left;
-  padding: 8px 10px;
-  border-bottom: 1px solid var(--border);
+  padding: 10px var(--space-3);
+  border-bottom: 1px solid var(--color-border);
   vertical-align: top;
 }
-.table tbody tr:hover{
-  /* Diskret hover på rad */
-  background: var(--accent);
+
+.table tbody tr:nth-child(odd) {
+  background: rgba(13, 59, 102, 0.02);
 }
 
-/* Hover-effekt på hele raden */
-.table tr:hover {
-  background-color: #f0f0f0;   /* litt mørkere grå bakgrunn */
-  cursor: pointer;
+.table tbody tr:hover {
+  background: rgba(13, 59, 102, 0.08);
 }
 
-/* Markering av valgt rad (kan settes med JS ved klikk) */
 .table tr.selected {
-  background-color: #444;      /* mørk bakgrunn */
-  color: #fff;                 /* hvit tekst */
+  background: var(--color-primary);
+  color: #fff;
 }
 
-/* Marker felter med "error" eller "berørt" */
 .table td.error {
-  background-color: #c62828;   /* rød */
-  color: #fff;                 /* hvit tekst */
-  font-weight: bold;
+  background: var(--color-danger);
+  color: #fff;
+  font-weight: 600;
 }
 
-/* Alternativ for header, så hover/selected ikke overstyrer */
 .table thead tr:hover,
 .table thead tr.selected {
-  background-color: inherit;
+  background: inherit;
   color: inherit;
-  cursor: default;
+}
+
+.site-footer {
+  background: var(--color-primary);
+  color: #fff;
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-3) 0 var(--space-4);
+  font-size: 12.5px;
+  margin-top: var(--space-4);
+}
+
+.site-footer .container {
+  text-align: center;
+}
+
+.tab-link:focus-visible,
+.btn:focus-visible,
+.btn-small:focus-visible,
+.tile:focus-visible {
+  outline: 3px solid rgba(13, 59, 102, 0.35);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  h1 { font-size: 28px; }
+
+  .home-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  }
+
+  .tile {
+    min-height: 84px;
+    padding: var(--space-3);
+  }
+
+  .site-header .logo {
+    height: 48px;
+  }
+
+  .home .site-header .logo {
+    height: 62px;
+  }
+
+  .btn {
+    min-width: 18ch;
+  }
+}
+
+@media (max-width: 520px) {
+  body {
+    font-size: 13px;
+  }
+
+  .tabs-list {
+    gap: var(--space-1);
+  }
+
+  .tab-link {
+    padding: var(--space-2) var(--space-2);
+  }
+
+  .site-footer {
+    font-size: 12px;
+  }
+}
+/* =========================================================
+   DETAIL VIEW STYLING (for alle *_detalj.php)
+   ========================================================= */
+.detail-list {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 1rem;
+  padding: 1.2rem 1.5rem;
+  margin-top: 1rem;
+  background-color: var(--card-bg, #fff);
+  border: 1px solid var(--border-color, #ddd);
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.detail-list dt {
+  font-weight: 600;
+  color: var(--text-strong, #333);
+  text-align: right;
+  padding-right: 0.25rem;
+}
+
+.detail-list dd {
+  margin: 0;
+  padding: 0 0 0.3rem 0;
+  color: var(--text-normal, #444);
+  border-bottom: 1px dashed var(--border-color, #e0e0e0);
+}
+
+.detail-list dd:last-of-type {
+  border-bottom: none;
+}
+
+.detail-list dt::after {
+  content: ":";
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.4rem 1.2rem;
+  margin-top: 1.2rem;
+  font-size: 0.95rem;
+  background-color: var(--primary, #003366);
+  color: #fff;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn:hover,
+.btn:focus {
+  background-color: var(--primary-hover, #005199);
 }

@@ -72,11 +72,14 @@ dpostweb/
 ├── outfil/								# Folder med print-out filer som alle rollene har tilgang til
 │   └── xxx_print.php        			# TBD
 │ 
-└── protfil/      						# Folder med filer kun **admin** rollen har tilgang til
-    ├── register.php         			# Brukerregistrering bruker i xuser, hvis tom tabell
-    ├── xxx.php.php        				# TBD CRUD
-    ├── param_admin.php          		# Admin av parameterfiler
-    └── param_table.php        			# Admin av parameterfiler
+└── protfil/      						# Folder med filer kun **admin** rollen har tilgang til (*=Ikke laget ennå)
+    ├── crud_artikkel.php*
+    ├── crud_bilde.php*
+    ├── crud_annonse.php*
+    ├── crud_fartoy.php*
+    ├── crud_param.php*
+    ├── brukeradmin.php*
+    └── login.php
  
 
 
