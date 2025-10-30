@@ -6,10 +6,19 @@ function is_logged_in(): bool {
     return isset($_SESSION['user_id']);
 }
 
+function current_role(): string {
+    return $_SESSION['user_role'] ?? '';
+}
+
 function is_admin(): bool {
     if (!is_logged_in()) return false;
-    $role = $_SESSION['user_role'] ?? '';
+    $role = current_role();
     return in_array($role, ['admin','super'], true);
+}
+
+function is_super(): bool {
+    if (!is_logged_in()) return false;
+    return current_role() === 'super';
 }
 
 function require_login(): void {

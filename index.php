@@ -1,69 +1,61 @@
 <?php
-// index.php — Landing page for DpostWeb
-// Uses shared includes and constants as defined in project structure docs.
-require_once __DIR__ . '/includes/bootstrap.php'; // loads config, constants, functions
-// No auth required on landing page
+// index.php - Landing page for DpostWeb
+require_once __DIR__ . '/includes/bootstrap.php';
+require_once __DIR__ . '/includes/auth.php';
+require_once __DIR__ . '/includes/functions.php';
 
 $page_title = 'Søk i Dampskibspostens innhold';
 $body_class = 'home';
+$activeNav = 'home';
 include __DIR__ . '/includes/header.php';
 ?>
 <main class="home-main">
   <div class="container">
-    <h1><?php echo h($page_title); ?></h1>
-    <p class="lead muted">
-      Under hver knapp finner du lister som viser elementer i Dampskibspostens 125 utgaver gjennom ca. 50 år.
-      Bruk søkefelt og «øyet» for å se detaljer. «%» kan benyttes som jokertegn.
-    </p>
+    <div class="home-hero">
+      <img src="<?php echo h(asset('assets/img/dposten-logo@6x.jpg')); ?>" alt="Dampskibspostens emblem" class="home-hero__image" />
+    </div>
 
-    <nav class="nav tabs" aria-label="Hovedvalg">
-      <ul class="tabs-list" role="list">
-        <li class="tab-item">
-          <a class="tab-link is-active" href="<?php echo BASE_URL; ?>index.php" aria-current="page">Hjem</a>
-        </li>
-        <li class="tab-item">
-          <a class="tab-link" href="<?php echo BASE_URL; ?>openfil/change_password.php">Bruker</a>
-        </li>
-        <?php if (is_admin() || is_super()): ?>
-        <li class="tab-item">
-          <a class="tab-link" href="<?php echo BASE_URL; ?>protfil/param_admin.php">Admin</a>
-        </li>
-        <?php endif; ?>
-      </ul>
-    </nav>
+    <h1 class="home-title"><?php echo h($page_title); ?></h1>
+
+    <div class="home-feature">
+      <img src="<?php echo h(asset('assets/img/dampskip.jpg')); ?>" alt="Historisk dampfart&oslash;y" class="home-feature__image" />
+    </div>
+
+    <p class="lead muted text-center">
+      Under hver knapp finner du lister som viser elementer i Dampskibspostens 125 utgaver gjennom ca. 50 &aring;r.
+      Alle artikler er registrert med tittel. I perioden frem til 1998 finnes flere detaljer enn sist i perioden. Dette vil endre seg ettersom registreringsarbeidet skrider frem. 
+      Tegnet &laquo;#&raquo; brukes i noen av tabellenes kolonnetitler, det står for 'antall'.  
+    </p>
 
     <div class="card centered-card">
       <div class="card-content">
         <h2>Velg hva du vil utforske</h2>
-        <div class="home-grid" role="list">
-          <a role="listitem" class="tile blue" href="<?php echo BASE_URL; ?>openfil/utgaver.php">Utgaver</a>
-          <a role="listitem" class="tile blue" href="<?php echo BASE_URL; ?>openfil/tema_liste.php">Tema liste</a>
-          <a role="listitem" class="tile blue" href="<?php echo BASE_URL; ?>openfil/artikler.php">Artikler</a>
-          <a role="listitem" class="tile blue" href="<?php echo BASE_URL; ?>openfil/bilder.php">Bilder</a>
-          <a role="listitem" class="tile blue" href="<?php echo BASE_URL; ?>openfil/personer.php">Personer</a>
-          <a role="listitem" class="tile blue" href="<?php echo BASE_URL; ?>openfil/fartoyer.php">Fartøyer</a>
-          <a role="listitem" class="tile blue" href="<?php echo BASE_URL; ?>openfil/forfattere.php">Forfattere</a>
-          <a role="listitem" class="tile blue" href="<?php echo BASE_URL; ?>openfil/fotografer.php">Fotografer</a>
-          <a role="listitem" class="tile blue" href="<?php echo BASE_URL; ?>openfil/forening_org.php">Forening/org</a>
-          <a role="listitem" class="tile blue" href="<?php echo BASE_URL; ?>openfil/verft.php">Verft</a>
-          <a role="listitem" class="tile blue" href="<?php echo BASE_URL; ?>openfil/rederier.php">Rederier</a>
-
-          <?php if (is_admin() || is_super()): ?>
-            <a role="listitem" class="tile admin" href="<?php echo BASE_URL; ?>protfil/param_admin.php">Administrasjon</a>
-          <?php endif; ?>
+        <div class="home-actions" role="list">
+          <a role="listitem" class="tile blue" href="<?= h(url('openfil/utgaver.php')) ?>">Utgaver</a>
+          <a role="listitem" class="tile blue" href="<?= h(url('openfil/tema_liste.php')) ?>">Tema liste</a>
+          <a role="listitem" class="tile blue" href="<?= h(url('openfil/artikler.php')) ?>">Artikler</a>
+          <a role="listitem" class="tile blue" href="<?= h(url('openfil/bilder.php')) ?>">Bilder</a>
+          <a role="listitem" class="tile blue" href="<?= h(url('openfil/personer.php')) ?>">Personer</a>
+          <a role="listitem" class="tile blue" href="<?= h(url('openfil/fartoyer.php')) ?>">Fart&oslash;yer</a>
+          <a role="listitem" class="tile blue" href="<?= h(url('openfil/forfattere.php')) ?>">Forfattere</a>
+          <a role="listitem" class="tile blue" href="<?= h(url('openfil/fotografer.php')) ?>">Fotografer</a>
+          <a role="listitem" class="tile blue" href="<?= h(url('openfil/forening_org.php')) ?>">Forening/org</a>
+          <a role="listitem" class="tile blue" href="<?= h(url('openfil/verft.php')) ?>">Verft</a>
+          <a role="listitem" class="tile blue" href="<?= h(url('openfil/rederier.php')) ?>">Rederier</a>
         </div>
 
-        <h4>Tips: Du kan søke i tabellene og åpne detaljer fra hver rad.</h4>
+        <h4>Tips: Du kan s&oslash;ke i tabellene og &aring;pne detaljer fra hver rad.</h4>
       </div>
     </div>
 
     <div class="mt-2l">
-      <p class="muted">
-        Alle artikler er registrert med tittel, fra 1998–2023 finnes flere detaljer. I tabellene viser tegnet «#» antall.
-        Lenken «Se PDF» åpner den aktuelle utgaven (der tilgjengelig), mens «Se data» åpner eksterne kilder.
+      <p class="muted text-center">
+        Bruk s&oslash;kefelt og &laquo;&oslash;yet&raquo; for &aring; se detaljer. &laquo;%&raquo; kan benyttes som jokertegn.
+        I skjermbilder med tabell til venstre og tilhørende informasjon til høyre, klikk alltid på venstre felt i tabellen til venstre for å se korrekt informasjon i tabellene/felten til høyre i skjermbildet.
       </p>
+
     </div>
   </div>
 </main>
 
-<?php include __DIR__ . '/includes/footer.php'; ?>
+<?php include __DIR__ . '/includes/footer.php'; ?>

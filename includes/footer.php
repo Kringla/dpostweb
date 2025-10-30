@@ -8,6 +8,7 @@ $BASE = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
   </div>
 </footer>
 
+<script src="<?= h($BASE . '/js/table-filters.js') ?>"></script>
+
 </body>
 </html>
-

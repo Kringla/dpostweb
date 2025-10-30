@@ -1,77 +1,154 @@
 <?php
 // includes/menu.php
-// Minimal, trygg meny iht. CR Faner:
-//  - "Hjem" -> /index.php (skjules når man er på index.php)
-//  - "Administrasjon" -> /login.php
-//  - Ingen "Logg inn" og ingen "Logg ut"
-//  - Bruker BASE_URL og h() (forutsatt definert i bootstrap/header)
+// Håndterer hovedmeny, aktivt menyvalg og basisdata for brødsmuler.
 
-if (!defined('BASE_URL')) {
-    // Hvis filen skulle bli brukt uten bootstrap/header, fall tilbake til rot
-    define('BASE_URL', '');
-}
-
-// Finn gjeldende scriptnavn uten sti
-$current = basename($_SERVER['SCRIPT_NAME'] ?? '');
-
-// Enkel helper: hvis h() ikke finnes (ekstremt tilfelle), lag en ufarlig fallback
 if (!function_exists('h')) {
     function h($s) { return htmlspecialchars((string)$s, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'); }
 }
-// Ikke render meny på landingssiden
-if ($current === 'index.php') { return; }
-?>
-<nav class="nav tabs" aria-label="Hovedmeny">
-    <ul class="tabs-list">
-        
-        <?php
-          // Visningsregler:
-          // - Innlogget: kun "Hjem"
-          // - På index.php (ikke innlogget): kun "Administrasjon"
-          // - Ellers: begge
-          $loggedIn = isset($_SESSION) && !empty($_SESSION['user_id']);
-          $isIndex  = ($current === 'index.php');
-          
-          $homeHref  = BASE_URL . '/index.php';
-          $adminHref = BASE_URL . '/login.php?next=/admin/'; // gå til admin-hjem etter login
-          
-          $showHome  = false;
-          $showAdmin = false;
-          
-          if ($loggedIn) {
-              $showHome = true;
-          } elseif ($isIndex) {
-              $showAdmin = true;
-          } else {
-              $showHome = true;
-              $showAdmin = true;
-          }
-        
-          // Force-hide Admin tab on admin/* pages after login to avoid duplicate self-link and UX confusion
-          $req = $_SERVER['REQUEST_URI'] ?? '';
-          $inAdmin = (strpos($req, '/admin/') !== false);
-          if ($inAdmin) {
-              $showAdmin = false; // show only Hjem in admin section
-              $showHome  = true;
-          }
-?>
-        
-        <?php if ($showHome): ?>
-            <li class="tab-item">
-                <a class="tab-link<?= $current === 'index.php' ? ' is-active' : '' ?>"
-                   href="<?= $homeHref ?>"
-                   <?= $current === 'index.php' ? 'aria-current=\"page\"' : '' ?>
-                ><?= h('Hjem') ?></a>
-            </li>
-        <?php endif; ?>
-        
-        <?php if ($showAdmin): ?>
-            <li class="tab-item">
-                <a class="tab-link<?= $current === 'login.php' ? ' is-active' : '' ?>"
-                   href="<?= $adminHref ?>"
-                   <?= $current === 'login.php' ? 'aria-current=\"page\"' : '' ?>
-                ><?= h('Administrasjon') ?></a>
-            </li>
-        <?php endif; ?>
-    </ul>
-</nav>
+
+if (!function_exists('get_main_navigation_items')) {
+    function get_main_navigation_items(): array {
+        static $items = null;
+        if ($items !== null) {
+            return $items;
+        }
+
+        $items = [
+            'home' => [
+                'label' => 'Hjem',
+                'href'  => url('index.php'),
+                'match' => ['index.php'],
+            ],
+            'issues' => [
+                'label' => 'Utgaver',
+                'href'  => url('openfil/utgaver.php'),
+                'match' => ['openfil/utgaver.php', 'openfil/detalj/utgave_detalj.php'],
+            ],
+            'topics' => [
+                'label' => 'Tema',
+                'href'  => url('openfil/tema_liste.php'),
+                'match' => ['openfil/tema_liste.php', 'openfil/detalj/tema_detalj.php'],
+            ],
+            'articles' => [
+                'label' => 'Artikler',
+                'href'  => url('openfil/artikler.php'),
+                'match' => ['openfil/artikler.php', 'openfil/detalj/artikkel_detalj.php'],
+            ],
+            'images' => [
+                'label' => 'Bilder',
+                'href'  => url('openfil/bilder.php'),
+                'match' => ['openfil/bilder.php', 'openfil/detalj/bilde_detalj.php'],
+            ],
+            'people' => [
+                'label' => 'Personer',
+                'href'  => url('openfil/personer.php'),
+                'match' => ['openfil/personer.php', 'openfil/detalj/person_detalj.php'],
+            ],
+            'vessels' => [
+                'label' => 'Fartoyer',
+                'href'  => url('openfil/fartoyer.php'),
+                'match' => ['openfil/fartoyer.php', 'openfil/detalj/fartoy_detalj.php'],
+            ],
+            'authors' => [
+                'label' => 'Forfattere',
+                'href'  => url('openfil/forfattere.php'),
+                'match' => ['openfil/forfattere.php', 'openfil/detalj/forfatter_detalj.php'],
+            ],
+            'photographers' => [
+                'label' => 'Fotografer',
+                'href'  => url('openfil/fotografer.php'),
+                'match' => ['openfil/fotografer.php', 'openfil/detalj/fotograf_detalj.php'],
+            ],
+            'organizations' => [
+                'label' => 'Forening/org',
+                'href'  => url('openfil/forening_org.php'),
+                'match' => ['openfil/forening_org.php', 'openfil/detalj/forening_org_detalj.php'],
+            ],
+            'yards' => [
+                'label' => 'Verft',
+                'href'  => url('openfil/verft.php'),
+                'match' => ['openfil/verft.php', 'openfil/detalj/verft_detalj.php'],
+            ],
+            'shipping' => [
+                'label' => 'Rederier',
+                'href'  => url('openfil/rederier.php'),
+                'match' => ['openfil/rederier.php', 'openfil/detalj/rederi_detalj.php'],
+            ],
+            'admin' => [
+                'label' => 'Administrasjon',
+                'href'  => url('protfil/param_admin.php'),
+                'match' => ['protfil/param_admin.php'],
+                'requires_admin' => true,
+            ],
+        ];
+
+        return $items;
+    }
+}
+
+if (!function_exists('determine_active_nav')) {
+    function determine_active_nav(?string $explicit = null): ?string {
+        if ($explicit !== null) {
+            return $explicit;
+        }
+
+        $items = get_main_navigation_items();
+        $currentScript = $_SERVER['SCRIPT_NAME'] ?? '';
+        $currentScript = str_replace('\\', '/', $currentScript);
+        $currentNormalized = '/' . ltrim($currentScript, '/');
+
+        foreach ($items as $key => $item) {
+            foreach ($item['match'] as $match) {
+                $matchNormalized = '/' . ltrim($match, '/');
+                if (
+                    $currentNormalized === $matchNormalized ||
+                    (strlen($currentNormalized) >= strlen($matchNormalized) &&
+                     substr($currentNormalized, -strlen($matchNormalized)) === $matchNormalized)
+                ) {
+                    return $key;
+                }
+            }
+        }
+
+        return null;
+    }
+}
+
+if (!function_exists('render_main_menu')) {
+    /**
+     * Render hovedmenyen.
+     *
+     * @param string|null $activeNav Navn på aktiv menyseksjon. Null => automatisk.
+     */
+    function render_main_menu(?string $activeNav = null): void {
+        $items = get_main_navigation_items();
+        $resolved = determine_active_nav($activeNav);
+        $isAdmin = function_exists('is_admin') ? is_admin() : false;
+
+        echo '<nav class="site-nav nav tabs" aria-label="Hovedmeny">';
+        echo '<div class="container">';
+        echo '<ul class="tabs-list">';
+
+        foreach ($items as $key => $item) {
+            if (!empty($item['requires_admin']) && !$isAdmin) {
+                continue;
+            }
+
+            $isActive = $resolved === $key;
+            $href = $item['href'];
+            $label = $item['label'];
+
+            echo '<li class="tab-item">';
+            echo '<a class="tab-link' . ($isActive ? ' is-active' : '') . '" href="' . h($href) . '"';
+            if ($isActive) {
+                echo ' aria-current="page"';
+            }
+            echo '>' . h($label) . '</a>';
+            echo '</li>';
+        }
+
+        echo '</ul>';
+        echo '</div>';
+        echo '</nav>';
+    }
+}

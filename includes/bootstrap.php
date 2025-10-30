@@ -2,7 +2,8 @@
 // /includes/bootstrap.php
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../config/constants.php'; // BASE_URL m.m. (tom i prod -> ok)
-// require_once __DIR__ . '/../includes/functions.php';
+require_once __DIR__ . '/functions.php';
+require_once __DIR__ . '/auth.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -48,7 +49,7 @@ function db_rw(): mysqli {
     $p = defined('DB_RW_PASS') ? DB_RW_PASS : (defined('DB_PASSWORD') ? DB_PASSWORD : null);
 
     $rw = new mysqli($h, $u, $p, $d);
-    $rw->set_charset('UTF-8');
+    $rw->set_charset('utf8mb4');
     return $rw;
 }
 

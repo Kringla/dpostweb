@@ -1,11 +1,24 @@
 <?php
-function e($string) {
-    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+// Global HTML-escape helper (alias h()/e())
+if (!function_exists('h')) {
+    function h($value): string {
+        return htmlspecialchars((string)$value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+    }
 }
+
+if (!function_exists('e')) {
+    function e($value): string {
+        return h($value);
+    }
+}
+
 function is_valid_id($id) {
     return ctype_digit(strval($id)) && intval($id) > 0;
 }
 function isAdmin() {
+    if (function_exists('is_admin')) {
+        return is_admin();
+    }
     return isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin';
 }
 
