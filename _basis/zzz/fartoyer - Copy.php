@@ -1,8 +1,4 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 require_once('../includes/bootstrap.php');
 $page_title = 'Fartoy';
 
@@ -141,7 +137,7 @@ if ($selectedVesselId !== null) {
       SELECT
         b.PicID AS image_id,
         COALESCE(
-          MAX(NULLIF(TRIM(bb.PicTitBlad), '')),
+          NULLIF(TRIM(bb.PicTitBlad), ''),
           NULLIF(TRIM(b.PicMotiv), ''),
           CONCAT('Bilde ', b.PicID)
         ) AS title,

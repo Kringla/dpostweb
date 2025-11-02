@@ -155,25 +155,26 @@ h4 {
   border-radius: var(--radius-sm) var(--radius-sm) 0 0;
   border: 1px solid transparent;
   border-bottom: 3px solid transparent;
-  background: transparent;
-  color: var(--color-primary-active);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--color-text);
   font-weight: 600;
   line-height: 1;
-  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
+  transition: background var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .tab-link:hover,
 .tab-link:focus {
-  background: var(--color-surface-muted);
+  background: var(--color-surface);
   color: var(--color-primary);
+  border-color: rgba(13, 59, 102, 0.25);
 }
 
 .tab-link.is-active {
-  background: var(--color-surface);
-  border-color: var(--color-border);
-  border-bottom-color: var(--color-surface);
-  color: var(--color-primary);
-  box-shadow: 0 6px 16px rgba(13, 59, 102, 0.08);
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+  box-shadow: 0 6px 16px rgba(13, 59, 102, 0.18);
 }
 
 .home-main {
@@ -393,10 +394,10 @@ form {
 
 .btn-small--icon {
   min-width: 0;
-  width: 32px;
-  height: 32px;
+  width: 16px;
+  height: 16px;
   padding: 0;
-  font-size: 18px;
+  font-size: 12px;
   line-height: 1;
 }
 
@@ -559,6 +560,15 @@ form {
   display: block;
   font-size: 13.5px;
   color: var(--color-text);
+}
+
+.tema-detail-table .col-issue {
+  width: 15ch;
+  min-width: 15ch;
+}
+
+.tema-detail-table .title-col {
+  width: auto;
 }
 
 @media (max-width: 1024px) {
@@ -890,4 +900,38 @@ form {
   .utgaver-actions {
     text-align: left;
   }
+}
+
+.spesiell-tekst {
+  /* Definerer fyllfargen for teksten (innsiden) */
+  color: var(--color-primary);
+
+  /* Definerer bredden og fargen på konturen (streken) */
+  /* Bruker -webkit-prefiks for bredere støtte for text-stroke */
+  -webkit-text-stroke-width: 1px; /* Konturbredde: 1 piksler */
+  -webkit-text-stroke-color:#ffc107; /* konturfarge */ 
+
+  /* Valgfritt: Legger til en skygge for å forsterke effekten (text-shadow er bedre støttet) */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
+  
+  /* Valgfritt: Endre fontstørrelsen for å gjøre effekten mer synlig */
+  font-size: 92px; 
+  font-family: Arial, sans-serif;
+}
+
+.page-title {
+  /* Definerer fyllfargen for teksten (innsiden) */
+  color: var(--color-primary);
+
+  /* Definerer bredden og fargen på konturen (streken) */
+  /* Bruker -webkit-prefiks for bredere støtte for text-stroke */
+  -webkit-text-stroke-width: 1px; /* Konturbredde: 1 piksler */
+  -webkit-text-stroke-color:#ffc107; /* konturfarge */ 
+
+  /* Valgfritt: Legger til en skygge for å forsterke effekten (text-shadow er bedre støttet) */
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); 
+  
+  /* Valgfritt: Endre fontstørrelsen for å gjøre effekten mer synlig */
+  font-size: 38px; 
+  font-family: Arial, sans-serif;
 }

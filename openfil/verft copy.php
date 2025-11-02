@@ -5,7 +5,6 @@ $page_title = 'Verft';
 $db = db();
 
 $yards = [];
-$result = null;
 $yardSql = "
   SELECT
     v.VerftID AS verft_id,
@@ -70,8 +69,6 @@ if (!empty($yards)) {
 
 $yardVessels = [];
 $yardLinks = [];
-$yardArticles = [];
-$yardImages = [];
 
 if ($selectedYardId !== null) {
     $yardVesselSql = "
@@ -123,7 +120,6 @@ if ($selectedYardId !== null) {
             }
             $res->free();
         }
-
         if (!empty($yardVessels)) {
             usort($yardVessels, function (array $a, array $b): int {
                 $aYear = $a['first_year_value'] ?? null;
@@ -146,108 +142,6 @@ if ($selectedYardId !== null) {
             unset($vesselItem);
         }
         $stmt->close();
-    }
-    $articleSql = "
-      SELECT
-        a.ArtID AS article_id,
-        COALESCE(NULLIF(TRIM(a.ArtTittel), ''), CONCAT('Artikkel ', a.ArtID)) AS title,
-        MIN(b.Year) AS published_year,
-        MIN(b.BladNr) AS issue_number,
-        a.ArtType AS art_type
-      FROM tblxArtVerft av
-      JOIN tblArtikkel a ON a.ArtID = av.ArtID
-      LEFT JOIN tblBlad b ON b.BladID = a.BladID
-      WHERE av.VerftID = ? AND av.ArtID > 0
-      GROUP BY a.ArtID, a.ArtTittel, a.ArtType
-      ORDER BY published_year DESC, issue_number ASC, title ASC
-    ";
-
-    $articleStmt = $db->prepare($articleSql);
-    if ($articleStmt instanceof mysqli_stmt) {
-        $articleStmt->bind_param('i', $selectedYardId);
-        $articleStmt->execute();
-        $articleResult = $articleStmt->get_result();
-
-        if ($articleResult instanceof mysqli_result) {
-            while ($row = $articleResult->fetch_assoc()) {
-                $title = trim((string)($row['title'] ?? ''));
-                if ($title === '') {
-                    $title = 'Artikkel ' . (int)$row['article_id'];
-                }
-
-                $issueParts = [];
-                if (!empty($row['published_year'])) {
-                    $issueParts[] = (string)$row['published_year'];
-                }
-                if (!empty($row['issue_number'])) {
-                    $issueParts[] = 'nr ' . $row['issue_number'];
-                }
-
-                $yardArticles[] = [
-                    'id' => (int)$row['article_id'],
-                    'title' => $title,
-                    'issue' => implode(' ', $issueParts),
-                    'type' => trim((string)($row['art_type'] ?? '')),
-                ];
-            }
-            $articleResult->free();
-        }
-
-        $articleStmt->close();
-    }
-
-    $imageSql = "
-      SELECT
-        b.PicID AS image_id,
-        COALESCE(
-          MAX(NULLIF(TRIM(bb.PicTitBlad), '')),
-          NULLIF(TRIM(b.PicMotiv), ''),
-          CONCAT('Bilde ', b.PicID)
-        ) AS title,
-        MIN(bl.Year) AS published_year,
-        MIN(bl.BladNr) AS issue_number,
-        b.PicType AS pic_type
-      FROM tblxBildeVerft bv
-      JOIN tblBilde b ON b.PicID = bv.PicID
-      LEFT JOIN tblxBildeBlad bb ON bb.PicID = b.PicID
-      LEFT JOIN tblBlad bl ON bl.BladID = bb.BladID
-      WHERE bv.VerftID = ? AND bv.PicID > 0
-      GROUP BY b.PicID, b.PicMotiv, b.PicType
-      ORDER BY published_year DESC, issue_number ASC, title ASC
-    ";
-
-    $imageStmt = $db->prepare($imageSql);
-    if ($imageStmt instanceof mysqli_stmt) {
-        $imageStmt->bind_param('i', $selectedYardId);
-        $imageStmt->execute();
-        $imageResult = $imageStmt->get_result();
-
-        if ($imageResult instanceof mysqli_result) {
-            while ($row = $imageResult->fetch_assoc()) {
-                $title = trim((string)($row['title'] ?? ''));
-                if ($title === '') {
-                    $title = 'Bilde ' . (int)$row['image_id'];
-                }
-
-                $issueParts = [];
-                if (!empty($row['published_year'])) {
-                    $issueParts[] = (string)$row['published_year'];
-                }
-                if (!empty($row['issue_number'])) {
-                    $issueParts[] = 'nr ' . $row['issue_number'];
-                }
-
-                $yardImages[] = [
-                    'id' => (int)$row['image_id'],
-                    'title' => $title,
-                    'issue' => implode(' ', $issueParts),
-                    'type' => trim((string)($row['pic_type'] ?? '')),
-                ];
-            }
-            $imageResult->free();
-        }
-
-        $imageStmt->close();
     }
 
     $linkSql = "
@@ -409,66 +303,6 @@ include('../includes/header.php');
                             <td><?php echo h($vessel['type']); ?></td>
                             <td><?php echo h($vessel['period']); ?></td>
                             <td><?php echo h($vessel['build_number']); ?></td>
-                          </tr>
-                        <?php endforeach; ?>
-                      <?php endif; ?>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-
-              <div class="secondary-section">
-                <h3>Artikler</h3>
-                <div class="table-wrap table-wrap--static">
-                  <div class="table-scroll">
-                    <table class="data-table data-table--compact">
-                      <thead>
-                        <tr>
-                          <th class="title-col">Tittel</th><th>Utgave</th><th>Type</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      <?php if ($selectedYardId === null): ?>
-                        <tr data-empty-row="true"><td colspan="4">Verft ikke valgt.</td></tr>
-                      <?php elseif (empty($yardArticles)): ?>
-                        <tr data-empty-row="true"><td colspan="4">Ingen artikler registrert for dette verftet.</td></tr>
-                      <?php else: ?>
-                        <?php foreach ($yardArticles as $article): ?>
-                          <tr>
-                            <td class="title-col"><?php echo h($article['title']); ?></td>
-                            <td><?php echo h($article['issue']); ?></td>
-                            <td><?php echo h($article['type']); ?></td>
-                          </tr>
-                        <?php endforeach; ?>
-                      <?php endif; ?>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-
-              <div class="secondary-section">
-                <h3>Bilder</h3>
-                <div class="table-wrap table-wrap--static">
-                  <div class="table-scroll">
-                    <table class="data-table data-table--compact">
-                      <thead>
-                        <tr>
-                          <th class="title-col">Tittel</th><th>Utgave</th><th>Type</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      <?php if ($selectedYardId === null): ?>
-                        <tr data-empty-row="true"><td colspan="4">Verft ikke valgt.</td></tr>
-                      <?php elseif (empty($yardImages)): ?>
-                        <tr data-empty-row="true"><td colspan="4">Ingen bilder registrert for dette verftet.</td></tr>
-                      <?php else: ?>
-                        <?php foreach ($yardImages as $image): ?>
-                          <tr>
-                            <td class="title-col"><?php echo h($image['title']); ?></td>
-                            <td><?php echo h($image['issue']); ?></td>
-                            <td><?php echo h($image['type']); ?></td>
                           </tr>
                         <?php endforeach; ?>
                       <?php endif; ?>

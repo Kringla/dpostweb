@@ -1,9 +1,19 @@
 <?php
 require_once('../../includes/bootstrap.php');
 
+$activeNav = 'organizations';
+$baseBreadcrumbs = [
+    ['label' => 'Hjem', 'url' => url('index.php')],
+    ['label' => 'Forening/org', 'url' => url('openfil/forening_org.php')],
+];
+
+
 if (!isset($_GET['id']) || !is_valid_id($_GET['id'])) {
     http_response_code(400);
     $page_title = "Ugyldig forespørsel";
+    $breadcrumbs = array_merge($baseBreadcrumbs, [
+        ['label' => $page_title],
+    ]);
     include('../../includes/header.php');
     ?>
     <main class="page-main">
@@ -12,7 +22,6 @@ if (!isset($_GET['id']) || !is_valid_id($_GET['id'])) {
           <div class="card-content">
             <h1 class="page-title"><?= h($page_title) ?></h1>
             <p>Forespørselen mangler et gyldig organisasjons-id.</p>
-            <a class="btn" href="<?= h(url('openfil/forening_org.php')) ?>">Tilbake</a>
           </div>
         </div>
       </div>
@@ -46,8 +55,9 @@ $sql = "
     o.StatOrg,
     o.IkkeOrg,
     o.Nedlagt
-  FROM vwOrgDposten o
+  FROM tblOrganisasjon o
   WHERE o.OrgID = ?
+    AND (o.VernOrg <> 0 OR o.MuseumOrg <> 0)
   LIMIT 1
 ";
 
@@ -61,6 +71,9 @@ $stmt->close();
 if (!$detail) {
     http_response_code(404);
     $page_title = 'Organisasjon ikke funnet';
+    $breadcrumbs = array_merge($baseBreadcrumbs, [
+        ['label' => $page_title],
+    ]);
     include('../../includes/header.php');
     ?>
     <main class="page-main">
@@ -69,7 +82,6 @@ if (!$detail) {
           <div class="card-content">
             <h1 class="page-title"><?= h($page_title) ?></h1>
             <p>Vi fant ikke organisasjon #<?= h($orgId) ?>.</p>
-            <a class="btn" href="<?= h(url('openfil/forening_org.php')) ?>">Tilbake</a>
           </div>
         </div>
       </div>
@@ -86,6 +98,10 @@ $locationParts = array_filter([
 $location = trim(implode(' ', $locationParts));
 
 $page_title = 'Organisasjon: ' . $detail['name'];
+$breadcrumbs = array_merge($baseBreadcrumbs, [
+    ['label' => $detail['name']],
+]);
+
 include('../../includes/header.php');
 ?>
 <main class="page-main">
@@ -112,11 +128,9 @@ include('../../includes/header.php');
           <dt>Notater</dt><dd><?= h($detail['notes'] ?? '') ?></dd>
         </dl>
 
-        <a href="<?= h(url('openfil/forening_org.php')) ?>" class="btn">Tilbake</a>
       </div>
     </div>
   </div>
 </main>
 <?php include('../../includes/footer.php'); ?>
-
 

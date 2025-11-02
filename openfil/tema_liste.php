@@ -178,14 +178,7 @@ include __DIR__ . '/../includes/header.php';
       <div class="card-content">
         <h1 class="page-title"><?php echo h($page_title); ?></h1>
 
-        <div class="page-toolbar">
-          <div class="toolbar-actions">
-            <a class="btn" href="<?php echo h(url('openfil/tema_liste.php')); ?>" data-reset-table="<?php echo h(url('openfil/tema_liste.php')); ?>">Tilbake</a>
-            <a class="btn" href="<?php echo h(url('index.php')); ?>">Til landingssiden</a>
-          </div>
-        </div>
-
-        <div class="dual-table-layout">
+        <div class="dual-table-layout dual-table-layout--even">
           <section class="dual-table-panel dual-table-panel--primary">
             <div class="table-wrap" data-table-wrap>
               <div id="tema-pagination-top" class="table-pagination" data-pagination="top"></div>
@@ -196,7 +189,7 @@ include __DIR__ . '/../includes/header.php';
                       <th class="name-col">Tema</th><th class="count-col">Artikler</th><th class="count-col">Bilder</th>
                     </tr>
                     <tr class="filter-row">
-                      <th><input type="search" class="column-filter" data-filter-column="0" data-filter-mode="contains" placeholder="S&oslash;k tema" aria-label="S&oslash;k i tema" /></th>
+                      <th><input type="search" class="column-filter" data-filter-column="0" data-filter-mode="contains" placeholder="Søk tema" aria-label="Søk i tema" /></th>
                       <th></th>
                       <th></th>
                     </tr>
@@ -269,12 +262,19 @@ include __DIR__ . '/../includes/header.php';
 
               <div class="secondary-section">
                 <h3>Artikler</h3>
-                <div class="table-wrap table-wrap--static">
+                <div class="table-wrap" data-table-wrap>
+                  <div id="tema-artikler-pagination-top" class="table-pagination" data-pagination="top"></div>
                   <div class="table-scroll">
-                    <table class="data-table data-table--compact">
+                    <table
+                      id="table-tema-artikler"
+                      class="data-table data-table--compact tema-detail-table"
+                      data-list-table
+                      data-rows-per-page="20"
+                      data-empty-message="Ingen artikler registrert for dette temaet."
+                    >
                       <thead>
                         <tr>
-                          <th class="title-col">Tittel</th><th>Utgave</th><th>Side</th><th>Type</th>
+                          <th class="title-col">Tittel</th><th class="col-issue">Utgave</th><th>Side</th><th>Type</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -286,7 +286,7 @@ include __DIR__ . '/../includes/header.php';
                         <?php foreach ($temaArticles as $article): ?>
                           <tr>
                             <td class="title-col"><?php echo h($article['title']); ?></td>
-                            <td><?php echo h($article['issue']); ?></td>
+                            <td class="col-issue"><?php echo h($article['issue']); ?></td>
                             <td><?php echo h($article['page']); ?></td>
                             <td><?php echo h($article['type']); ?></td>
                           </tr>
@@ -295,17 +295,25 @@ include __DIR__ . '/../includes/header.php';
                       </tbody>
                     </table>
                   </div>
+                  <div id="tema-artikler-pagination-bottom" class="table-pagination" data-pagination="bottom"></div>
                 </div>
               </div>
 
               <div class="secondary-section">
                 <h3>Bilder</h3>
-                <div class="table-wrap table-wrap--static">
+                <div class="table-wrap" data-table-wrap>
+                  <div id="tema-bilder-pagination-top" class="table-pagination" data-pagination="top"></div>
                   <div class="table-scroll">
-                    <table class="data-table data-table--compact">
+                    <table
+                      id="table-tema-bilder"
+                      class="data-table data-table--compact tema-detail-table"
+                      data-list-table
+                      data-rows-per-page="20"
+                      data-empty-message="Ingen bilder registrert for dette temaet."
+                    >
                       <thead>
                         <tr>
-                          <th class="title-col">Tittel</th><th>Utgave</th><th>Side</th><th>Type</th>
+                          <th class="title-col">Tittel</th><th class="col-issue">Utgave</th><th>Side</th><th>Type</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -317,7 +325,7 @@ include __DIR__ . '/../includes/header.php';
                         <?php foreach ($temaImages as $image): ?>
                           <tr>
                             <td class="title-col"><?php echo h($image['title']); ?></td>
-                            <td><?php echo h($image['issue']); ?></td>
+                            <td class="col-issue"><?php echo h($image['issue']); ?></td>
                             <td><?php echo h($image['page']); ?></td>
                             <td><?php echo h($image['type']); ?></td>
                           </tr>
@@ -326,6 +334,7 @@ include __DIR__ . '/../includes/header.php';
                       </tbody>
                     </table>
                   </div>
+                  <div id="tema-bilder-pagination-bottom" class="table-pagination" data-pagination="bottom"></div>
                 </div>
               </div>
 

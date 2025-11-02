@@ -4,7 +4,7 @@ $BASE = defined('BASE_URL') ? rtrim(BASE_URL, '/') : '';
 ?>
 <footer class="site-footer">
   <div class="container">
-    <div class="muted">c <?= date('Y') ?> DpostWeb</div>
+    <div class="site-footer__copyright"><?= h('@Copyright 2025  Gerhard B Ihlen  (gbihlen@gmail.com)') ?></div>
   </div>
 </footer>
 

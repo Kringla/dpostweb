@@ -51,7 +51,7 @@ Denne filen gir Codex veiledning for arbeid i dette repoet, **dpostweb**.
 	+ Spesielt for landingssiden: Når knapper benyttes må de ikke være duplikater av tabs.
   + Tabeller skal være sentrert i contaioneren. Tekstene i kolonnene skal være venstre justert. 
   + Søkefeltet over kolonner skal kun søke i kolonnens innhold.
-  + Antall linjer på side skal være 40, med sideangivelse/navigering både opp og nede. De skal være nmulig å angi sidenummert manuelt.
+  + Antall linjer på side skal være 25, med sideangivelse/navigering både opp og nede. De skal være nmulig å angi sidenummert manuelt.
 
 ### Utførelse av endringer:
 Alle endringer skal skje basert på enten fil vedlagt i prosjektets dokumenter, en vedlagt fil, eller siste versjon av den relevante filen som ligger på https://github.com/Kringla/dpostweb.

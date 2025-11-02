@@ -35,18 +35,18 @@ dpostweb/
 ├── .htaccess                			# URL-omskriving, sikkerhetsregler
 ├── index.php               			# Landingside
 ├── login.php                			# Innlogging
-├── logout.php                			# Utlogging
-├── register.php             			# Brukerregistrering bruker i xuser, hvis tom tabell
 │
 ├── admin/      						# Folder med filer kun **admin** rollen har tilgang til
-│   ├── xxx.php        					# TBD
+│   ├── openfil_link_audit.php        	# Utility
 │   └── register.php         			# Brukerregistrering bruker i xuser, hvis tom tabell
 │
 ├── assets/
 │   └──  img/ 							# bilde-filer
-│        ├── DpostWeb-logo.jpg       	# Site logo
-│        ├── DpostWeb-logo@2x.jpg       # Site logo stor
-│        └── DpostWeb-logo@4x.jpg       # Site logo størst
+│        ├── dpostWeb-logo.jpg       	# Site logo
+│        ├── dpostWeb-logo@2x.jpg       # Site logo stor
+│        ├── dpostWeb-logo@4x.jpg       # Site logo større
+│        ├── dpostWeb-logo@8x.jpg       # Site logo størst
+│        └── dampskip.jpg       		# Bilde for landingsside
 │
 ├── config/
 │   ├── config.php           			# Database- og app-innstillinger
@@ -61,25 +61,44 @@ dpostweb/
 │   ├── header.php           			# Felles HTML-head + åpning av <body>
 │   ├── footer.php           			# Felles footerelementer + lukking av <body>
 │   ├── auth.php           				# rolle-/tilgangshjelpere
-│   ├── xxx.php           				# TBD
-│   ├── param_utils.php           		# Parameter-fil administrasjon 
 │   └── functions.php        			# Hjelpefunksjoner (validering, formatering mv.)
 │
+├── js/									# Jason filer
+│   └── table-filters.js       			# 
+│ 
+│
 ├── openfil/							# Folder med filer som alle rollene har tilgang til
-│   ├── change_password.php          	# Endre passord
-│   └── xxx.php        					# TBD
+│   ├──  detail/ 						# Detalj-filer
+│   │    ├── annonsor_detalj.jpg       	# annonsedetaljer
+│   │    ├── artikkel_detalj.jpg       	# Artikkeldetaljer
+│   │    ├── bilde_detalj.jpg       	# Bildedetaljer
+│   │    └── fartoy_detalj.jpg       	# Fartøydetaljer
+│   │ 
+│   ├── annonsor.php          			# 
+│   ├── artikler.php
+│   ├── bilder.php
+│   ├── fartoyer.php
+│   ├── forening_org.php
+│   ├── forfattere.php
+│   ├── fotografer.php
+│   ├── personer.php
+│   ├── pub_forfattere.php
+│   ├── publikasjoner.php
+│   ├── rederier.php
+│   ├── tema_liste.php
+│   ├── utgaver.php
+│   └── verft.php
 │
 ├── outfil/								# Folder med print-out filer som alle rollene har tilgang til
 │   └── xxx_print.php        			# TBD
 │ 
 └── protfil/      						# Folder med filer kun **admin** rollen har tilgang til (*=Ikke laget ennå)
-    ├── crud_artikkel.php*
     ├── crud_bilde.php*
     ├── crud_annonse.php*
     ├── crud_fartoy.php*
     ├── crud_param.php*
     ├── brukeradmin.php*
-    └── login.php
+    └── login.php						# Innlogging for beskyttete filer
  
 
 

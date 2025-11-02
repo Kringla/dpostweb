@@ -24,7 +24,7 @@
       ? Array.from(wrapper.querySelectorAll('[data-pagination]'))
       : [];
 
-    const rowsPerPage = parsePositiveInt(table.dataset.rowsPerPage, 40);
+    const rowsPerPage = parsePositiveInt(table.dataset.rowsPerPage, 25);
     const emptyMessageText = table.dataset.emptyMessage || 'Ingen treff.';
 
     const allRows = Array.from(tbody.rows);

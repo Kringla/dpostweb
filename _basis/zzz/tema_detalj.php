@@ -1,9 +1,19 @@
 <?php
 require_once('../../includes/bootstrap.php');
 
+$activeNav = 'topics';
+$baseBreadcrumbs = [
+    ['label' => 'Hjem', 'url' => url('index.php')],
+    ['label' => 'Tema', 'url' => url('openfil/tema_liste.php')],
+];
+
+
 if (!isset($_GET['id']) || !is_valid_id($_GET['id'])) {
     http_response_code(400);
     $page_title = 'Ugyldig foresporsel';
+    $breadcrumbs = array_merge($baseBreadcrumbs, [
+        ['label' => $page_title],
+    ]);
     include('../../includes/header.php');
     ?>
     <main class="page-main">
@@ -12,7 +22,6 @@ if (!isset($_GET['id']) || !is_valid_id($_GET['id'])) {
           <div class="card-content">
             <h1 class="page-title"><?= h($page_title) ?></h1>
             <p>Forespørselen mangler et gyldig tema-id.</p>
-            <a class="btn" href="<?= h(url('openfil/tema_liste.php')) ?>">Tilbake</a>
           </div>
         </div>
       </div>
@@ -47,6 +56,9 @@ $stmt->close();
 if (!$tema) {
     http_response_code(404);
     $page_title = 'Tema ikke funnet';
+    $breadcrumbs = array_merge($baseBreadcrumbs, [
+        ['label' => $page_title],
+    ]);
     include('../../includes/header.php');
     ?>
     <main class="page-main">
@@ -55,7 +67,6 @@ if (!$tema) {
           <div class="card-content">
             <h1 class="page-title"><?= h($page_title) ?></h1>
             <p>Vi fant ikke tema #<?= h($temaId) ?>.</p>
-            <a class="btn" href="<?= h(url('openfil/tema_liste.php')) ?>">Tilbake</a>
           </div>
         </div>
       </div>
@@ -67,6 +78,10 @@ if (!$tema) {
 
 $temaNavn = $tema['name'] !== '' ? $tema['name'] : ('Tema ' . $temaId);
 $page_title = 'Tema: ' . $temaNavn;
+$breadcrumbs = array_merge($baseBreadcrumbs, 
+    ['label' => $temaNavn],
+);
+
 $articleCount = (int) $tema['article_count'];
 $imageCount = (int) $tema['image_count'];
 $description = $tema['description'] ?? '';
@@ -88,7 +103,6 @@ include('../../includes/header.php');
           <dt>Bilder</dt><dd><?= h($imageCount) ?></dd>
         </dl>
 
-        <a href="<?= h(url('openfil/tema_liste.php')) ?>" class="btn">Tilbake</a>
       </div>
     </div>
   </div>

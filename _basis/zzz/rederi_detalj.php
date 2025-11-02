@@ -1,9 +1,19 @@
 <?php
 require_once('../../includes/bootstrap.php');
 
+$activeNav = 'shipping';
+$baseBreadcrumbs = [
+    ['label' => 'Hjem', 'url' => url('index.php')],
+    ['label' => 'Rederier', 'url' => url('openfil/rederier.php')],
+];
+
+
 if (!isset($_GET['id']) || !is_valid_id($_GET['id'])) {
     http_response_code(400);
     $page_title = 'Ugyldig forespørsel';
+    $breadcrumbs = array_merge($baseBreadcrumbs, [
+        ['label' => $page_title],
+    ]);
     include('../../includes/header.php');
     ?>
     <main class="page-main">
@@ -12,7 +22,6 @@ if (!isset($_GET['id']) || !is_valid_id($_GET['id'])) {
           <div class="card-content">
             <h1><?= h($page_title) ?></h1>
             <p>Forespørselen mangler et gyldig rederi-id.</p>
-            <a class="btn" href="<?= h(url('openfil/rederier.php')) ?>">Tilbake</a>
           </div>
         </div>
       </div>
@@ -51,6 +60,9 @@ $stmt->close();
 if (!$rederi) {
     http_response_code(404);
     $page_title = 'Rederi ikke funnet';
+    $breadcrumbs = array_merge($baseBreadcrumbs, [
+        ['label' => $page_title],
+    ]);
     include('../../includes/header.php');
     ?>
     <main class="page-main">
@@ -59,7 +71,6 @@ if (!$rederi) {
           <div class="card-content">
             <h1><?= h($page_title) ?></h1>
             <p>Vi fant ikke rederi #<?= h($rederiId) ?>.</p>
-            <a class="btn" href="<?= h(url('openfil/rederier.php')) ?>">Tilbake</a>
           </div>
         </div>
       </div>
@@ -92,10 +103,8 @@ include('../../includes/header.php');
           <dt>Antall fartøy</dt><dd><?= h((string)$vesselCount) ?></dd>
         </dl>
 
-        <a href="<?= h(url('openfil/rederier.php')) ?>" class="btn">Tilbake</a>
       </div>
     </div>
   </div>
 </main>
 <?php include('../../includes/footer.php'); ?>
-

@@ -74,6 +74,21 @@ if (!function_exists('get_main_navigation_items')) {
                 'href'  => url('openfil/rederier.php'),
                 'match' => ['openfil/rederier.php', 'openfil/detalj/rederi_detalj.php'],
             ],
+            'publications' => [
+                'label' => 'Omtalte bøker',
+                'href'  => url('openfil/publikasjoner.php'),
+                'match' => ['openfil/pub_forfattere.php'],
+            ],
+            'pubauthors' => [
+                'label' => 'Bøkers forfattere',
+                'href'  => url('openfil/pub_forfattere.php'),
+                'match' => ['openfil/publikasjoner.php'],
+            ],
+            'advertisers' => [
+                'label' => 'Annonsører',
+                'href'  => url('openfil/annonsor.php'),
+                'match' => ['openfil/annonsor.php', 'openfil/detalj/annonsor_detalj.php'],
+            ],
             'admin' => [
                 'label' => 'Administrasjon',
                 'href'  => url('protfil/param_admin.php'),

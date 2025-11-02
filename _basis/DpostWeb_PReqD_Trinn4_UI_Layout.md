@@ -109,8 +109,8 @@ Målet er å sikre et konsistent, tilgjengelig og vedlikeholdbart grensesnitt p�
 
 ### 7.4 Navigasjon og brødsmulesti
 
-* Toppmeny med aktuell seksjon uthevet.
-* Brødsmulesti på detaljsider (f.eks. `Artikler > 1932 nr 4 > Postgangen i nord`).
+* Toppmenyen markerer aktiv seksjon (skjules på landingssiden for å unngå duplikater).
+* Brødsmulesti er midlertidig deaktivert og vises ikke.
 
 ---
 

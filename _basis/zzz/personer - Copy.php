@@ -1,15 +1,10 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 require_once('../includes/bootstrap.php');
 $page_title = 'Personer';
 
 $db = db();
 
 $persons = [];
-$personResult = null;
 $personSql = "
   SELECT
     p.PersID AS person_id,
@@ -32,7 +27,6 @@ $personSql = "
 $personResult = $db->query($personSql);
 
 if ($personResult instanceof mysqli_result) {
-  if ($personResult instanceof mysqli_result) {
     while ($row = $personResult->fetch_assoc()) {
         $name = trim((string)($row['name'] ?? ''));
         if ($name === '') {
@@ -55,7 +49,6 @@ if ($personResult instanceof mysqli_result) {
         ];
     }
     $personResult->free();
-  }
 }
 
 $selectedPersonId = filter_input(INPUT_GET, 'person_id', FILTER_VALIDATE_INT, ['options' => ['min_range' => 1]]);
@@ -138,7 +131,7 @@ if ($selectedPersonId !== null) {
       SELECT
         b.PicID AS image_id,
         COALESCE(
-          MAX(NULLIF(TRIM(bb.PicTitBlad), '')),
+          NULLIF(TRIM(bb.PicTitBlad), ''),
           NULLIF(TRIM(b.PicMotiv), ''),
           CONCAT('Bilde ', b.PicID)
         ) AS title,
@@ -198,6 +191,13 @@ include('../includes/header.php');
     <div class="card">
       <div class="card-content">
         <h1 class="page-title"><?php echo h($page_title); ?></h1>
+
+        <div class="page-toolbar">
+          <div class="toolbar-actions">
+            <a class="btn" href="<?php echo h(url('openfil/personer.php')); ?>" data-reset-table="<?php echo h(url('openfil/personer.php')); ?>">Tilbake</a>
+            <a class="btn" href="<?php echo h(url('index.php')); ?>">Til landingssiden</a>
+          </div>
+        </div>
 
         <div class="dual-table-layout">
           <section class="dual-table-panel dual-table-panel--primary">

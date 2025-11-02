@@ -82,7 +82,10 @@ if ($selectedRederiId !== null) {
       WHERE ft.RedID = ?
         AND (ft.Navning IS NULL OR ft.Navning <> 0)
       GROUP BY fn.FartID
-      ORDER BY (first_year IS NULL), first_year, name
+      ORDER BY 
+        (MIN(NULLIF(fn.YearNavn, 0)) IS NULL), 
+        MIN(NULLIF(fn.YearNavn, 0)), 
+        name
     ";
 
     $stmt = $db->prepare($vesselSql);
@@ -127,14 +130,7 @@ include('../includes/header.php');
     <div class="card">
       <div class="card-content">
         <h1 class="page-title"><?php echo h($page_title); ?></h1>
-
-        <div class="page-toolbar">
-          <div class="toolbar-actions">
-            <a class="btn" href="<?php echo h(url('openfil/rederier.php')); ?>" data-reset-table="<?php echo h(url('openfil/rederier.php')); ?>">Tilbake</a>
-            <a class="btn" href="<?php echo h(url('index.php')); ?>">Til landingssiden</a>
-          </div>
-        </div>
-
+        <h4><strong>NB!</strong> Rederi-basen innholder kun rederier som eide båter som er omtalt i <em>Dampskipsposten</em>. Rederier med personnavn er listet med etternavn, fornavn!</h4>
         <div class="dual-table-layout">
           <section class="dual-table-panel dual-table-panel--primary">
             <div class="table-wrap" data-table-wrap>
@@ -146,8 +142,8 @@ include('../includes/header.php');
                       <th class="name-col">Rederi</th><th>Hjemsted</th><th class="count-col">Fartøyer</th>
                     </tr>
                     <tr class="filter-row">
-                      <th><input type="search" class="column-filter" data-filter-column="0" data-filter-mode="contains" placeholder="S&oslash;k rederi" aria-label="S&oslash;k i rederier" /></th>
-                      <th><input type="search" class="column-filter" data-filter-column="1" data-filter-mode="contains" placeholder="S&oslash;k sted" aria-label="S&oslash;k i steder" /></th>
+                      <th><input type="search" class="column-filter" data-filter-column="0" data-filter-mode="contains" placeholder="Sø;k rederi" aria-label="Sø;k i rederier" /></th>
+                      <th><input type="search" class="column-filter" data-filter-column="1" data-filter-mode="contains" placeholder="Sø;k sted" aria-label="Sø;k i steder" /></th>
                       <th></th>
                     </tr>
                   </thead>
@@ -231,14 +227,14 @@ include('../includes/header.php');
                     <table class="data-table data-table--compact">
                       <thead>
                         <tr>
-                          <th class="title-col">Fart&oslash;y</th><th>Type</th><th>Periode</th><th>Registerhavn</th>
+                          <th class="title-col">Fartø;y</th><th>Type</th><th>Periode</th><th>Registerhavn</th>
                         </tr>
                       </thead>
                       <tbody>
                       <?php if ($selectedRederiId === null): ?>
                         <tr data-empty-row="true"><td colspan="4">Ingen rederi valgt.</td></tr>
                       <?php elseif (empty($vessels)): ?>
-                        <tr data-empty-row="true"><td colspan="4">Ingen fart&oslash;y registrert for dette rederiet.</td></tr>
+                        <tr data-empty-row="true"><td colspan="4">Ingen fartø;y registrert for dette rederiet.</td></tr>
                       <?php else: ?>
                         <?php foreach ($vessels as $vessel): ?>
                           <tr>
@@ -265,4 +261,3 @@ include('../includes/header.php');
 </main>
 
 <?php include('../includes/footer.php'); ?>
-

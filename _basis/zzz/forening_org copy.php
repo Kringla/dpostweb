@@ -57,7 +57,6 @@ if (!empty($organizations)) {
 
 $organizationDetail = null;
 $organizationArticles = [];
-$organizationImages = [];
 
 if ($selectedOrgId !== null) {
     $detailSql = "
@@ -143,63 +142,6 @@ if ($selectedOrgId !== null) {
         }
 
         $articleStmt->close();
-    }
-
-    
-    $imageSql = "
-      SELECT
-        b.PicID AS image_id,
-        COALESCE(
-          MAX(NULLIF(TRIM(bb.PicTitBlad), '')),
-          NULLIF(TRIM(b.PicMotiv), ''),
-          CONCAT('Bilde ', b.PicID)
-        ) AS title,
-        MIN(bl.Year) AS published_year,
-        MIN(bl.BladNr) AS issue_number,
-        MIN(NULLIF(bb.Side, 0)) AS page_number,
-        b.PicType AS pic_type
-      FROM tblxBildeOrg bo
-      JOIN tblBilde b ON b.PicID = bo.PicID
-      LEFT JOIN tblxBildeBlad bb ON bb.PicID = b.PicID
-      LEFT JOIN tblBlad bl ON bl.BladID = bb.BladID
-      WHERE bo.OrgID = ? AND bo.OrgID > 0
-      GROUP BY b.PicID, b.PicMotiv, b.PicType
-      ORDER BY published_year DESC, issue_number ASC, page_number ASC, title ASC
-    ";
-
-    $imageStmt = $db->prepare($imageSql);
-    if ($imageStmt instanceof mysqli_stmt) {
-        $imageStmt->bind_param('i', $selectedOrgId);
-        $imageStmt->execute();
-        $imageResult = $imageStmt->get_result();
-
-        if ($imageResult instanceof mysqli_result) {
-            while ($row = $imageResult->fetch_assoc()) {
-                $title = trim((string)($row['title'] ?? ''));
-                if ($title === '') {
-                    $title = 'Bilde ' . (int)$row['image_id'];
-                }
-
-                $issueParts = [];
-                if (!empty($row['published_year'])) {
-                    $issueParts[] = (string)$row['published_year'];
-                }
-                if (!empty($row['issue_number'])) {
-                    $issueParts[] = 'nr ' . $row['issue_number'];
-                }
-
-                $orgImages[] = [
-                    'id' => (int)$row['image_id'],
-                    'title' => $title,
-                    'issue' => implode(' ', $issueParts),
-                    'page' => ($row['page_number'] !== null) ? (string)$row['page_number'] : '',
-                    'type' => trim((string)($row['pic_type'] ?? '')),
-                ];
-            }
-            $imageResult->free();
-        }
-
-        $imageStmt->close();
     }
 }
 
@@ -375,38 +317,6 @@ include('../includes/header.php');
                   </div>
                 </div>
               </div>
-
-              <div class="secondary-section">
-                <h3>Bilder</h3>
-                <div class="table-wrap table-wrap--static">
-                  <div class="table-scroll">
-                    <table class="data-table data-table--compact">
-                      <thead>
-                        <tr>
-                          <th class="title-col">Tittel</th><th>Utgave</th><th>Side</th><th>Type</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                      <?php if ($selectedOrgId === null): ?>
-                        <tr data-empty-row="true"><td colspan="4">Ingen person valgt.</td></tr>
-                      <?php elseif (empty($orgImages)): ?>
-                        <tr data-empty-row="true"><td colspan="4">Ingen bilder registrert for denne foreningen/organisasjonen.</td></tr>
-                      <?php else: ?>
-                        <?php foreach ($orgImages as $image): ?>
-                          <tr>
-                            <td class="title-col"><?php echo h($image['title']); ?></td>
-                            <td><?php echo h($image['issue']); ?></td>
-                            <td><?php echo h($image['page']); ?></td>
-                            <td><?php echo h($image['type']); ?></td>
-                          </tr>
-                        <?php endforeach; ?>
-                      <?php endif; ?>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-
             </div>
           </section>
         </div>

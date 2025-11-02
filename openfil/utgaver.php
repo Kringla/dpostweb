@@ -157,13 +157,27 @@ include('../includes/header.php');
 
         <div class="utgaver-layout">
           <section class="utgaver-section utgaver-section--list">
-            <h2>Tabell 1: Utgaver</h2>
-            <div class="table-wrap table-wrap--static">
+            <h2>Oversikt over utgaver</h2>
+            <div class="table-wrap" data-table-wrap>
+              <div id="utgaver-pagination-top" class="table-pagination" data-pagination="top"></div>
               <div class="table-scroll">
-                <table class="data-table utgaver-table">
+                <table
+                  id="table-utgaver"
+                  class="data-table utgaver-table"
+                  data-list-table
+                  data-rows-per-page="25"
+                  data-empty-message="Ingen utgaver registrert."
+                >
                   <thead>
                     <tr>
-                      <th>BladNr</th><th>&Aring;r</th><th>Bladformat</th><th>Opplag</th><th>Lenke</th>
+                      <th>BladNr</th><th>År</th><th>Bladformat</th><th>Opplag</th><th>Lenke</th>
+                    </tr>
+                    <tr class="filter-row">
+                      <th><input type="search" class="column-filter" data-filter-column="0" data-filter-mode="contains" placeholder="Søk nummer" aria-label="Søk i bladnummer" /></th>
+                      <th><input type="search" class="column-filter" data-filter-column="1" data-filter-mode="startsWith" placeholder="Søk år" aria-label="Søk i år" /></th>
+                      <th><input type="search" class="column-filter" data-filter-column="2" data-filter-mode="contains" placeholder="Søk format" aria-label="Søk i bladformat" /></th>
+                      <th><input type="search" class="column-filter" data-filter-column="3" data-filter-mode="contains" placeholder="Søk opplag" aria-label="Søk i opplag" /></th>
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -209,57 +223,75 @@ include('../includes/header.php');
                   </tbody>
                 </table>
               </div>
+              <div id="utgaver-pagination-bottom" class="table-pagination" data-pagination="bottom"></div>
             </div>
           </section>
 
           <section class="utgaver-section utgaver-section--detail">
             <h2>Detaljer</h2>
+            <h4>A=Artikkel, N=Notis, S=Fast spalte, P=Program</h4>
             <?php if ($selectedIssue === null): ?>
-              <p>Velg en utgave fra tabellen for &aring; se detaljer.</p>
+              <p>Velg en utgave fra tabellen for å se detaljer.</p>
             <?php else: ?>
               <?php
                 $detailItems = [];
-                if ($selectedIssue['year'] !== null) {
-                    $detailItems[] = ['label' => '&Aring;r', 'value' => (string)$selectedIssue['year']];
+
+                if (
+                    $selectedIssue['blad_nr'] !== null ||
+                    $selectedIssue['year'] !== null ||
+                    $selectedIssue['year_nr'] !== null
+                ) {
+                    $issueValueParts = [];
+                    if ($selectedIssue['blad_nr'] !== null) {
+                        $issueValueParts[] = (string)$selectedIssue['blad_nr'];
+                    }
+                    if ($selectedIssue['year'] !== null) {
+                        $issueValueParts[] = (string)$selectedIssue['year'];
+                    }
+                    $issueValue = trim(implode(' ', $issueValueParts));
+                    if ($selectedIssue['year_nr'] !== null) {
+                        if ($issueValue === '') {
+                            $issueValue = '/' . (string)$selectedIssue['year_nr'];
+                        } else {
+                            $issueValue .= ' /' . (string)$selectedIssue['year_nr'];
+                        }
+                    }
+                    $issueValue = trim($issueValue);
+                    if ($issueValue !== '') {
+                        $detailItems[] = ['label' => 'Utgave', 'value' => $issueValue];
+                    }
                 }
-                if ($selectedIssue['blad_nr'] !== null) {
-                    $detailItems[] = ['label' => 'Nummer', 'value' => (string)$selectedIssue['blad_nr']];
-                }
-                if ($selectedIssue['year_nr'] !== null) {
-                    $detailItems[] = ['label' => '&Aring;rgang', 'value' => (string)$selectedIssue['year_nr']];
-                }
-                if ($selectedIssue['format'] !== '') {
-                    $detailItems[] = ['label' => 'Bladformat', 'value' => $selectedIssue['format']];
-                }
-                if ($selectedIssue['ant_sider'] !== null) {
-                    $detailItems[] = ['label' => 'Antall sider', 'value' => (string)$selectedIssue['ant_sider']];
-                }
-                if ($selectedIssue['ant_art'] !== null) {
-                    $detailItems[] = ['label' => 'Antall artikler', 'value' => (string)$selectedIssue['ant_art']];
-                }
-                if ($selectedIssue['ant_bilde'] !== null) {
-                    $detailItems[] = ['label' => 'Antall bilder', 'value' => (string)$selectedIssue['ant_bilde']];
-                }
-                if ($selectedIssue['ant_not'] !== null) {
-                    $detailItems[] = ['label' => 'Antall notiser', 'value' => (string)$selectedIssue['ant_not']];
-                }
-                if ($selectedIssue['ant_spalte'] !== null) {
-                    $detailItems[] = ['label' => 'Antall spalter', 'value' => (string)$selectedIssue['ant_spalte']];
-                }
-                if ($selectedIssue['ant_prog'] !== null) {
-                    $detailItems[] = ['label' => 'Antall program', 'value' => (string)$selectedIssue['ant_prog']];
+                if ($selectedIssue['redaktor'] !== '') {
+                    $detailItems[] = ['label' => 'Redaktør', 'value' => $selectedIssue['redaktor']];
                 }
                 if ($selectedIssue['opplag'] !== null) {
                     $detailItems[] = ['label' => 'Opplag', 'value' => (string)$selectedIssue['opplag']];
                 }
+                if ($selectedIssue['ant_sider'] !== null) {
+                    $detailItems[] = ['label' => 'Antall sider', 'value' => (string)$selectedIssue['ant_sider']];
+                }
                 if ($selectedIssue['farger'] !== null) {
                     $detailItems[] = ['label' => 'Farger', 'value' => $selectedIssue['farger'] === 0 ? 'Nei' : 'Ja'];
+                }
+                if ($selectedIssue['format'] !== '') {
+                    $detailItems[] = ['label' => 'Bladformat', 'value' => $selectedIssue['format']];
                 }
                 if ($selectedIssue['trykkeri'] !== '') {
                     $detailItems[] = ['label' => 'Trykkeri', 'value' => $selectedIssue['trykkeri']];
                 }
-                if ($selectedIssue['redaktor'] !== '') {
-                    $detailItems[] = ['label' => 'Redakt&oslash;r', 'value' => $selectedIssue['redaktor']];
+                if (
+                    $selectedIssue['ant_art'] !== null ||
+                    $selectedIssue['ant_not'] !== null ||
+                    $selectedIssue['ant_spalte'] !== null ||
+                    $selectedIssue['ant_prog'] !== null
+                ) {
+                    $counts = [
+                        $selectedIssue['ant_art'] !== null ? (string)$selectedIssue['ant_art'] : '0',
+                        $selectedIssue['ant_not'] !== null ? (string)$selectedIssue['ant_not'] : '0',
+                        $selectedIssue['ant_spalte'] !== null ? (string)$selectedIssue['ant_spalte'] : '0',
+                        $selectedIssue['ant_prog'] !== null ? (string)$selectedIssue['ant_prog'] : '0',
+                    ];
+                    $detailItems[] = ['label' => 'Antall A/N/S/P', 'value' => implode('/', $counts)];
                 }
               ?>
 
@@ -274,7 +306,7 @@ include('../includes/header.php');
               <p>Ingen detaljinformasjon registrert for denne utgaven.</p>
               <?php endif; ?>
 
-              <h3>Tabell 2: Artikler med forfatter</h3>
+              <h3>Artikler med forfatter</h3>
               <div class="table-wrap table-wrap--static">
                 <div class="table-scroll">
                   <table class="data-table data-table--compact">

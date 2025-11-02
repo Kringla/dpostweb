@@ -2,6 +2,10 @@
 require_once('../../includes/bootstrap.php');
 $page_title = 'Detaljer - Utgave';
 $activeNav = 'issues';
+$baseBreadcrumbs = [
+    ['label' => 'Hjem', 'url' => url('index.php')],
+    ['label' => 'Utgaver', 'url' => url('openfil/utgaver.php')],
+];
 
 $db = db();
 $issue = null;
@@ -51,11 +55,12 @@ if ($issue !== null) {
     }
 }
 
-$breadcrumbs = [
-    ['label' => 'Hjem', 'url' => url('index.php')],
-    ['label' => 'Utgaver', 'url' => url('openfil/utgaver.php')],
-    ['label' => $detailLabel],
-];
+$breadcrumbs = $baseBreadcrumbs;
+if ($error !== null) {
+    $breadcrumbs[] = ['label' => 'Detaljer'];
+} else {
+    $breadcrumbs[] = ['label' => $detailLabel];
+}
 
 include('../../includes/header.php');
 ?>
@@ -69,7 +74,7 @@ include('../../includes/header.php');
         <?php else: ?>
           <?php
             $detailRows = [
-              ['label' => '&Aring;r', 'value' => $issue['year'] ?? null],
+              ['label' => 'År', 'value' => $issue['year'] ?? null],
               ['label' => 'Nummer', 'value' => $issue['number'] ?? null],
               ['label' => 'Antall artikler', 'value' => $issue['ant_art'] ?? null],
               ['label' => 'Antall bilder', 'value' => $issue['ant_bilde'] ?? null],
@@ -86,7 +91,6 @@ include('../../includes/header.php');
           </dl>
         <?php endif; ?>
 
-        <a href="<?= h(url('openfil/utgaver.php')) ?>" class="btn">Tilbake</a>
       </div>
     </div>
   </div>

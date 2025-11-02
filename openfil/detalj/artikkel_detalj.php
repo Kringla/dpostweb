@@ -61,24 +61,31 @@ if (!isset($_GET['id']) || !is_valid_id($_GET['id'])) {
         $page_title = $error['title'];
     } else {
         $authorSql = <<<'SQL'
-          SELECT
-            GROUP_CONCAT(
-              DISTINCT COALESCE(
-                NULLIF(TRIM(f.ForfNavn), ''),
-                NULLIF(TRIM(CONCAT_WS(' ', f.FNavn, f.ENavn)), '')
-              )
-              ORDER BY f.ENavn, f.FNavn
-              SEPARATOR ', '
-            ) AS authors
+          SELECT DISTINCT
+            COALESCE(
+              NULLIF(TRIM(f.ForfNavn), ''),
+              NULLIF(TRIM(CONCAT_WS(' ', f.FNavn, f.ENavn)), '')
+            ) AS author_name
           FROM tblxArtForf af
           LEFT JOIN tblForfatter f ON f.ForfID = af.ForfID
           WHERE af.ArtID = ?
+          ORDER BY f.ENavn, f.FNavn
         SQL;
 
         $authorStmt = $db->prepare($authorSql);
         $authorStmt->bind_param('i', $articleId);
         $authorStmt->execute();
-        $authorRow = $authorStmt->get_result()->fetch_assoc() ?: ['authors' => null];
+        $authorResult = $authorStmt->get_result();
+        $authorList = [];
+        if ($authorResult instanceof mysqli_result) {
+            while ($row = $authorResult->fetch_assoc()) {
+                $name = trim((string)($row['author_name'] ?? ''));
+                if ($name !== '' && !in_array($name, $authorList, true)) {
+                    $authorList[] = $name;
+                }
+            }
+            $authorResult->free();
+        }
         $authorStmt->close();
 
         $title = trim((string)($article['ArtTittel'] ?? ''));
@@ -87,9 +94,8 @@ if (!isset($_GET['id']) || !is_valid_id($_GET['id'])) {
         }
 
         $subtitle = trim((string)($article['ArtUnderTittel'] ?? ''));
-        $authors = trim((string)($authorRow['authors'] ?? ''));
-        if ($authors === '') {
-            $authors = 'Ukjent forfatter';
+        if (empty($authorList)) {
+            $authorList[] = 'Ukjent forfatter';
         }
 
         $artType = trim((string)($article['ArtType'] ?? ''));
@@ -143,10 +149,10 @@ if (!isset($_GET['id']) || !is_valid_id($_GET['id'])) {
             $detailItems[] = ['label' => 'Kapitler', 'text' => $chapters, 'multiline' => true];
         }
 
-        $detailItems[] = ['label' => 'Forfatter', 'text' => $authors];
+        $detailItems[] = ['label' => 'Forfatter(e)', 'text' => implode("\n", $authorList), 'multiline' => true];
 
         if ($publishedYear !== null) {
-            $detailItems[] = ['label' => '&Aring;r', 'text' => (string)$publishedYear, 'allow_zero' => true];
+            $detailItems[] = ['label' => 'År', 'text' => (string)$publishedYear, 'allow_zero' => true];
         }
 
         if ($issueNumber !== null) {
@@ -154,7 +160,7 @@ if (!isset($_GET['id']) || !is_valid_id($_GET['id'])) {
         }
 
         if ($issueYearNr !== null) {
-            $detailItems[] = ['label' => '&Aring;rgang', 'text' => (string)$issueYearNr, 'allow_zero' => true];
+            $detailItems[] = ['label' => 'Årgang', 'text' => (string)$issueYearNr, 'allow_zero' => true];
         }
 
         if ($pageNumber !== null) {
@@ -198,6 +204,52 @@ if (!isset($_GET['id']) || !is_valid_id($_GET['id'])) {
 
         if ($notes !== '') {
             $detailItems[] = ['label' => 'Merknader', 'text' => $notes, 'multiline' => true];
+        }
+
+        $dbReferences = [];
+        $tableCheck = $db->query("SHOW TABLES LIKE 'tblxDbRef'");
+        if ($tableCheck instanceof mysqli_result) {
+            $hasDbRefTable = $tableCheck->num_rows > 0;
+            $tableCheck->free();
+        } else {
+            $hasDbRefTable = false;
+        }
+
+        if ($hasDbRefTable) {
+            $dbRefSql = "SELECT * FROM tblxDbRef WHERE ArtID = ?";
+            $dbRefStmt = $db->prepare($dbRefSql);
+            if ($dbRefStmt instanceof mysqli_stmt) {
+                $dbRefStmt->bind_param('i', $articleId);
+                $dbRefStmt->execute();
+                $dbRefResult = $dbRefStmt->get_result();
+                if ($dbRefResult instanceof mysqli_result) {
+                    while ($refRow = $dbRefResult->fetch_assoc()) {
+                        $parts = [];
+                        foreach ($refRow as $column => $value) {
+                            if ($value === null) {
+                                continue;
+                            }
+                            if (strcasecmp($column, 'id') === 0 || strcasecmp($column, 'artid') === 0) {
+                                continue;
+                            }
+                            $textValue = trim((string)$value);
+                            if ($textValue === '') {
+                                continue;
+                            }
+                            $parts[] = $textValue;
+                        }
+                        if (!empty($parts)) {
+                            $dbReferences[] = implode(' - ', $parts);
+                        }
+                    }
+                    $dbRefResult->free();
+                }
+                $dbRefStmt->close();
+            }
+        }
+
+        if (!empty($dbReferences)) {
+            $detailItems[] = ['label' => 'DB-referanser', 'text' => implode("\n", $dbReferences), 'multiline' => true];
         }
     }
 }

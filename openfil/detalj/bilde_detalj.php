@@ -21,7 +21,6 @@ if (!isset($_GET['id']) || !is_valid_id($_GET['id'])) {
           <div class="card-content">
             <h1 class="page-title"><?= h($page_title) ?></h1>
             <p>Forespørselen mangler et gyldig bilde-id.</p>
-            <a class="btn" href="<?= h(url('openfil/bilder.php')) ?>">Tilbake</a>
           </div>
         </div>
       </div>
@@ -74,7 +73,6 @@ if (!$detail) {
           <div class="card-content">
             <h1 class="page-title"><?= h($page_title) ?></h1>
             <p>Vi fant ikke bilde #<?= h($bildeId) ?>.</p>
-            <a class="btn" href="<?= h(url('openfil/bilder.php')) ?>">Tilbake</a>
           </div>
         </div>
       </div>
@@ -164,7 +162,6 @@ include('../../includes/header.php');
           <?php endif; ?>
         </dl>
 
-        <a href="<?= h(url('openfil/bilder.php')) ?>" class="btn">Tilbake</a>
       </div>
     </div>
   </div>

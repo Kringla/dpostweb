@@ -12,16 +12,16 @@ include('../includes/header.php');
         <div class="table-wrap" data-table-wrap>
           <div id="bilder-pagination-top" class="table-pagination" data-pagination="top"></div>
           <div class="table-scroll">
-            <table id="table-bilder" class="data-table" data-list-table data-rows-per-page="40" data-empty-message="Ingen treff.">
+            <table id="table-bilder" class="data-table" data-list-table data-rows-per-page="25" data-empty-message="Ingen treff.">
               <thead>
                 <tr>
-                  <th>Tittel</th><th>Fotograf</th><th>&Aring;r</th><th>Sted tatt</th><th>Detaljer</th>
+                  <th>Tittel</th><th>Fotograf</th><th>År</th><th>Sted tatt</th><th>Detaljer</th>
                 </tr>
                 <tr class="filter-row">
-                  <th><input type="search" class="column-filter" data-filter-column="0" data-filter-mode="contains" placeholder="S&oslash;k tittel" aria-label="S&oslash;k i titler" /></th>
-                  <th><input type="search" class="column-filter" data-filter-column="1" data-filter-mode="contains" placeholder="S&oslash;k fotograf" aria-label="S&oslash;k i fotografer" /></th>
-                  <th><input type="search" class="column-filter" data-filter-column="2" data-filter-mode="startsWith" placeholder="S&oslash;k &aring;r" aria-label="S&oslash;k i &aring;r" /></th>
-                  <th><input type="search" class="column-filter" data-filter-column="3" data-filter-mode="contains" placeholder="S&oslash;k sted" aria-label="S&oslash;k i steder" /></th>
+                  <th><input type="search" class="column-filter" data-filter-column="0" data-filter-mode="contains" placeholder="Søk tittel" aria-label="Søk i titler" /></th>
+                  <th><input type="search" class="column-filter" data-filter-column="1" data-filter-mode="contains" placeholder="Søk fotograf" aria-label="Søk i fotografer" /></th>
+                  <th><input type="search" class="column-filter" data-filter-column="2" data-filter-mode="startsWith" placeholder="Søk år" aria-label="Søk i år" /></th>
+                  <th><input type="search" class="column-filter" data-filter-column="3" data-filter-mode="contains" placeholder="Søk sted" aria-label="Søk i steder" /></th>
                   <th></th>
                 </tr>
               </thead>

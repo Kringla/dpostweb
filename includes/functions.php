@@ -44,3 +44,64 @@ if (!function_exists('asset')) {
         return $base . $rel . ($v ? ('?v=' . $v) : '');
     }
 }
+
+if (!function_exists('stmt_fetch_all_assoc')) {
+    /**
+     * Fetch all rows from a prepared statement as associative arrays.
+     * Works even when mysqlnd (and mysqli_stmt::get_result) is unavailable.
+     */
+    function stmt_fetch_all_assoc(mysqli_stmt $stmt): array {
+        if (method_exists($stmt, 'get_result')) {
+            $result = $stmt->get_result();
+            if ($result instanceof mysqli_result) {
+                $rows = $result->fetch_all(MYSQLI_ASSOC);
+                $result->free();
+                return $rows;
+            }
+            return [];
+        }
+
+        $rows = [];
+        if (!$stmt->store_result()) {
+            return $rows;
+        }
+
+        $meta = $stmt->result_metadata();
+        if (!$meta) {
+            $stmt->free_result();
+            return $rows;
+        }
+
+        $fields = $meta->fetch_fields();
+        $row = [];
+        $bindParams = [];
+        foreach ($fields as $field) {
+            $row[$field->name] = null;
+            $bindParams[] = &$row[$field->name];
+        }
+
+        if ($bindParams) {
+            call_user_func_array([$stmt, 'bind_result'], $bindParams);
+            while ($stmt->fetch()) {
+                $rowCopy = [];
+                foreach ($row as $key => $value) {
+                    $rowCopy[$key] = $value;
+                }
+                $rows[] = $rowCopy;
+            }
+        }
+
+        $stmt->free_result();
+        return $rows;
+    }
+}
+
+if (!function_exists('stmt_fetch_assoc')) {
+    /**
+     * Fetch the first row from a prepared statement as an associative array.
+     */
+    function stmt_fetch_assoc(mysqli_stmt $stmt): ?array {
+        $rows = stmt_fetch_all_assoc($stmt);
+        return $rows[0] ?? null;
+    }
+}

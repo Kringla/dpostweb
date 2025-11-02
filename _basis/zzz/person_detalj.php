@@ -1,9 +1,19 @@
 <?php
 require_once('../../includes/bootstrap.php');
 
+$activeNav = 'people';
+$baseBreadcrumbs = [
+    ['label' => 'Hjem', 'url' => url('index.php')],
+    ['label' => 'Personer', 'url' => url('openfil/personer.php')],
+];
+
+
 if (!isset($_GET['id']) || !is_valid_id($_GET['id'])) {
     http_response_code(400);
     $page_title = 'Ugyldig forespørsel';
+    $breadcrumbs = array_merge($baseBreadcrumbs, [
+        ['label' => $page_title],
+    ]);
     include('../../includes/header.php');
     ?>
     <main class="page-main">
@@ -12,7 +22,6 @@ if (!isset($_GET['id']) || !is_valid_id($_GET['id'])) {
           <div class="card-content">
             <h1 class="page-title"><?= h($page_title) ?></h1>
             <p>Forespørselen mangler et gyldig person-id.</p>
-            <a class="btn" href="<?= h(url('openfil/personer.php')) ?>">Tilbake</a>
           </div>
         </div>
       </div>
@@ -46,6 +55,9 @@ $stmt->close();
 if (!$detail) {
     http_response_code(404);
     $page_title = 'Person ikke funnet';
+    $breadcrumbs = array_merge($baseBreadcrumbs, [
+        ['label' => $page_title],
+    ]);
     include('../../includes/header.php');
     ?>
     <main class="page-main">
@@ -54,7 +66,6 @@ if (!$detail) {
           <div class="card-content">
             <h1 class="page-title"><?= h($page_title) ?></h1>
             <p>Vi fant ikke person #<?= h($personId) ?>.</p>
-            <a class="btn" href="<?= h(url('openfil/personer.php')) ?>">Tilbake</a>
           </div>
         </div>
       </div>
@@ -80,6 +91,10 @@ $role = implode(', ', array_unique($roleParts));
 $articleCount = (int) $detail['article_count'];
 
 $page_title = 'Person: ' . $name;
+$breadcrumbs = array_merge($baseBreadcrumbs, 
+    ['label' => $name],
+);
+
 include('../../includes/header.php');
 ?>
 <main class="page-main">
@@ -94,7 +109,6 @@ include('../../includes/header.php');
           <dt>Antall artikler</dt><dd><?= h($articleCount) ?></dd>
         </dl>
 
-        <a href="<?= h(url('openfil/personer.php')) ?>" class="btn">Tilbake</a>
       </div>
     </div>
   </div>

@@ -159,14 +159,7 @@ include('../includes/header.php');
       <div class="card-content">
         <h1 class="page-title"><?php echo h($page_title); ?></h1>
 
-        <div class="page-toolbar">
-          <div class="toolbar-actions">
-            <a class="btn" href="<?php echo h(url('openfil/fotografer.php')); ?>" data-reset-table="<?php echo h(url('openfil/fotografer.php')); ?>">Tilbake</a>
-            <a class="btn" href="<?php echo h(url('index.php')); ?>">Til landingssiden</a>
-          </div>
-        </div>
-
-        <div class="dual-table-layout">
+        <div class="dual-table-layout dual-table-layout--detail-wide">
           <section class="dual-table-panel dual-table-panel--primary">
             <div class="table-wrap" data-table-wrap>
               <div id="fotografer-pagination-top" class="table-pagination" data-pagination="top"></div>
@@ -177,7 +170,7 @@ include('../includes/header.php');
                       <th class="name-col">Navn</th><th class="count-col">Bilder</th>
                     </tr>
                     <tr class="filter-row">
-                      <th><input type="search" class="column-filter" data-filter-column="0" data-filter-mode="contains" placeholder="S&oslash;k navn" aria-label="S&oslash;k i navn" /></th>
+                      <th><input type="search" class="column-filter" data-filter-column="0" data-filter-mode="contains" placeholder="Søk navn" aria-label="Søk i navn" /></th>
                       <th></th>
                     </tr>
                   </thead>
